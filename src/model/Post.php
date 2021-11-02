@@ -61,7 +61,7 @@ class Post {
     }
 
     // Methods
-    public function isTitleValid($title) {
+/*     public function isTitleValid($title) {
 
     }
 
@@ -71,7 +71,7 @@ class Post {
 
     public function isBodyValid($title) {
         
-    }
+    } */
 
 }
 

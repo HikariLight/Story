@@ -1,6 +1,6 @@
 <?php 
 
-// require_once("lib/ObjectFileDB.php"); // replace by Database
+require_once("lib/ObjectFileDB.php"); // replace by Database
 require_once("model/Post.php");
 require_once("model/PostStorage.php");
 
@@ -9,7 +9,7 @@ class PostStorageFile implements PostStorage {
     private $db;
 
     public function __construct($file) {
-        // $this->db new ObjectFileDB($file); // replace by Database
+        $this->db = new ObjectFileDB($file); // replace by Database
     }
 
     public function create(Post $p) {
@@ -24,17 +24,11 @@ class PostStorageFile implements PostStorage {
         }
     }
 
-/*
-    public function readUser($id) {
-
-    }
-*/
-
     public function readAll() {
         return $this->db->fetchAll();
     }
 
-    public function update($id, $p) {
+    public function update($id, Post $p) {
         if ($this->db->exists($id)) {
             $this->db->update($id, $p);
             return true;

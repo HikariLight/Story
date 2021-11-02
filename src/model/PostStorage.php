@@ -16,9 +16,9 @@ interface PostStorage {
 
     public function readAll();
 
-    public function update($id, $p);
+    public function update($id, Post $p);
 
-    public function detele($id);
+    public function delete($id);
 
     public function deleteAll(); // really need to include this ? someone can delete everyting
 
