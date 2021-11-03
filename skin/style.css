@@ -1,0 +1,47 @@
+body{
+    margin: 0;
+    background-color: #EEEEEE;
+    font-family: Helvetica, Arial, Verdana;
+}
+
+nav{
+    text-align: center;
+    margin: 1em;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li{
+    display: inline;
+    margin: 0 1em;
+}
+
+.title{
+    color: #AC1933;
+}
+
+.coloredBackgroundButton{
+    background-color: #AC1933;
+    color: white;
+}
+
+.coloredTextButton{
+    background-color: white;
+    color: #AC1933;
+}
+
+.joke{
+    border: 1px solid #4AA55B;
+}
+
+.shortStory{
+    border: 1px solid #21A8F3;
+}
+
+.shortHorrorStory{
+    border: 1px solid #AC1933;
+}
