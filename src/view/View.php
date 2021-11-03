@@ -2,7 +2,6 @@
 
 require_once("Router.php");
 
-
     class View{
         protected $title;
         protected $content;
@@ -19,6 +18,8 @@ require_once("Router.php");
         public function makeHomePage(){
             $this->title = "Home";
 
+            $this->style = "body{text-align: center}";
+
             $this->content = "
             <h1 class='title'>Tell a Story.</h1>
             <button class='coloredBackgroundButton'>Sign up</button>
@@ -30,6 +31,8 @@ require_once("Router.php");
 
         public function makeAboutPage(){
             $this->title = "About";
+
+            $this->style = "body{text-align: center}";
 
             $this->content = "
             <h1 class='title'>Project Idea</h1>
@@ -51,14 +54,26 @@ require_once("Router.php");
             ";
         }
 
+        public function allUsersPost(){
+            $this->title = "All Posts";
+
+            $this->content = "<h1 class='title'>Work in progress.</h1>";
+        }
+
+        public function makeUnknownActionPage(){
+            $this->title = "Yo, what?";
+
+            $this->content = "<h1 class='title'>Sorry, G. This wasn't the move.</h1>";
+        }
+
         // Utilities
-        // protected function getMenu() {
-        //     return array(
-        //         "Home" => $this->router->homePage(),
-        //         "Browse Posts" => $this->router->postsPage(),
-        //         "About" => $this->router->aboutPage(),
-        //     );
-        // }
+        protected function getMenu() {
+            return array(
+                "Home" => $this->router->homePage(),
+                "Browse Posts" => $this->router->allUsersPostPage(),
+                "About" => $this->router->aboutPage(),
+            );
+        }
 
         public function render(){
             if ($this->title === null || $this->content === null) {
@@ -76,7 +91,7 @@ require_once("Router.php");
     <link rel="stylesheet" href="skin/style.css">
 
     <style>
-        <?php echo $this-style; ?>
+        <?php echo $this->style; ?>
     </style>
 
     <title>
@@ -85,15 +100,15 @@ require_once("Router.php");
 </head>
 <body>
 
-    <!-- <nav>
+    <nav>
 		<ul>
             <?php
-    //            foreach ($this->getMenu() as $text => $link) {
-	//                echo "<li><a href=\"$link\">$text</a></li>";
-    //            }
+                foreach ($this->getMenu() as $text => $link) {
+	                echo "<li><a href=\"$link\">$text</a></li>";
+                }
             ?>
 		</ul>
-	</nav> -->
+	</nav>
 
     <main>
         <?php echo $this->content; ?>
