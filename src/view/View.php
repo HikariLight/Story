@@ -1,5 +1,6 @@
 <?php
 
+require_once("model/Post.php");
 require_once("Router.php");
 
     class View{
@@ -27,8 +28,6 @@ require_once("Router.php");
             ";
         }
 
-        public function makePostsPage(){}
-
         public function makeAboutPage(){
             $this->title = "About";
 
@@ -54,10 +53,42 @@ require_once("Router.php");
             ";
         }
 
+        public function makeSignUpPage(){
+            $this->title = "Sign Up";
+
+            $this->content = "<h1 class='title'>Work in progress</h1>";
+        }
+
+        public function makeLoginPage(){
+            $this->title = "Login";
+
+            $this->content = "<h1 class='title'>Work in progress</h1>";
+        }
+
         public function allUsersPost(){
             $this->title = "All Posts";
 
             $this->content = "<h1 class='title'>Work in progress.</h1>";
+        }
+
+        public function makePostPage(Post $post){
+            $this->title = getPostTitle($post);
+
+            $className = $this->getBorderColor($post);
+
+            $this->content = "
+            <article class=$className>
+                <p>$post->getTitle();</p>
+                <br>
+                <p>$post->getBody();</p>
+            </article>
+            ";
+        }
+
+        public function makeProfile(){
+            $this->title = "Login";
+
+            $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
         public function makeUnknownActionPage(){
@@ -66,13 +97,45 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Sorry, G. This wasn't the move.</h1>";
         }
 
-        // Utilities
+        public function makeUnexpectedErrorPage(){
+            $this->title = "Yo, what?";
+
+            $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
+        }
+
+        // Non-Page stuff
         protected function getMenu() {
             return array(
                 "Home" => $this->router->homePage(),
                 "Browse Posts" => $this->router->allUsersPostPage(),
                 "About" => $this->router->aboutPage(),
             );
+        }
+
+        public function getPostTitle(Post $post){
+            $pieces = explode(" ", $post->getTitle());
+            $postTitle = implode(" ", array_splice($pieces, 0, 3));
+
+            return $postTitle . "...";
+        }
+
+        public function getBorderColor(Post $post){
+            $type = $post->getType();
+            $borderColor = "";
+
+            switch($type){
+                case "Short story":
+                    $borderColor = ".shortStory";
+                    break;
+                case "Short horror story":
+                    $borderColor = ".shortHorrorStory";
+                    break;
+                case "joke":
+                    $borderColor = ".joke";
+                    break;
+            }
+
+            return $borderColor;
         }
 
         public function render(){
