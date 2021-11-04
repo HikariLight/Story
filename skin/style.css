@@ -23,6 +23,11 @@ nav ul li{
     margin: 0 1em;
 }
 
+nav ul li a{
+    text-decoration: none;
+    color: #AC1933;
+}
+
 main{
     margin: auto;
 }
@@ -34,7 +39,7 @@ main{
 button{
     border: none;
     border-radius: 25px;
-    padding: 1em;
+    padding: 1.25em 2em;
     margin: 0.5em;
 }
 
@@ -62,8 +67,8 @@ button{
 
 header{ 
     min-height:50px;
-  }
+}
 
 footer{ 
     min-height:50px; 
-  }
+}

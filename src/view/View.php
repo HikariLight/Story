@@ -86,7 +86,7 @@ require_once("Router.php");
         }
 
         public function makeProfile(){
-            $this->title = "Login";
+            $this->title = "My Posts";
 
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
@@ -103,7 +103,7 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
         }
 
-        // Non-Page stuff
+        // ------------ Non-Page stuff ------------
         protected function getMenu() {
             return array(
                 "Home" => $this->router->homePage(),
@@ -164,14 +164,14 @@ require_once("Router.php");
 <body>
 
     <nav>
-		<ul>
+        <ul>
             <?php
                 foreach ($this->getMenu() as $text => $link) {
-	                echo "<li><a href=\"$link\">$text</a></li>";
+                    echo "<li><a href=\"$link\">$text</a></li>";
                 }
             ?>
-		</ul>
-	</nav>
+        </ul>
+    </nav>
 
     <main>
         <?php echo $this->content; ?>
