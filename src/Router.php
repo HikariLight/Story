@@ -62,6 +62,13 @@ class Router {
                     $ctl->allUsersPost();
                     break;
 
+                case 'createAccount' : 
+                    $view->makeLoginFormPage();
+                    break;
+
+                case 'login' : 
+                    $view->makeLoginFormPage();
+
                 default : 
                     $view->makeUnknownActionPage();
                     break;
