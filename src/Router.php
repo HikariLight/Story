@@ -35,6 +35,7 @@ class Router {
 
                 case 'home' : 
                     $view->makeHomePage();
+                    $postDB->debug();
                     break;
 
                 case 'createPost' :
