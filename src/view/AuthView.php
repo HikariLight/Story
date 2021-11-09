@@ -1,9 +1,10 @@
 <?php
 
 require_once("model/Post.php");
+require_once("View.php");
 require_once("Router.php");
 
-    class View{
+    class AuthView extends View{
         protected $title;
         protected $content;
         protected $style;
@@ -16,71 +17,36 @@ require_once("Router.php");
             $this->content = null;
         }
 
-        public function makeHomePage(){
-            $this->title = "Home";
+        public function makePostPage(Post $post){
+            $this->title = getPostTitle($post);
 
-            $this->style = "body{text-align: center}";
+            $className = $this->getBorderColor($post);
 
             $this->content = "
-            <h1 class='title'>Tell a Story.</h1>
-            <button class='coloredBackgroundButton'>Sign up</button>
-            <button class='coloredTextButton'>Login</button>
+            <article class=$className>
+                <p>$post->getTitle();</p>
+                <br>
+                <p>$post->getBody();</p>
+            </article>
             ";
         }
 
-        public function makeAboutPage(){
-            $this->title = "About";
-
-            $this->style = "body{text-align: center}";
-
-            $this->content = "
-            <h1 class='title'>Project Idea</h1>
-            <p>A platform where users can share short stories or jokes.
-            The title of each post is the setup for the story or the joke, and the detailed page reveals the punch line.</p>
-            
-            <h1 class='title'>Group Members</h1>
-            <ul>
-                <li>MERZOUGUI Dhia Eddine</li>
-                <li>MERCIER Julien</li>
-            </ul>
-
-            <h1 class='title'>Add-ons Developed</h1>
-            <ul>
-                <li>Website is responsive</li>
-                <li>Website has a search function</li>
-                <li>Website has a sorting function</li>
-            </ul>
-            ";
-        }
-
-        public function makeSignUpPage(){
-            $this->title = "Sign Up";
+        public function makeModifyPostPage(){
+            $this->title = "Modify";
 
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
-        public function makeLoginPage(){
-            $this->title = "Login";
+        public function makeDeletePostPage(){
+            $this->title = "Delete";
 
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
-        public function allUsersPost(){
-            $this->title = "Gallery";
+        public function makeProfile(){
+            $this->title = "My Posts";
 
-            $this->content = "<h1 class='title'>Work in progress.</h1>";
-        }
-
-        public function makeUnknownActionPage(){
-            $this->title = "Yo, what?";
-
-            $this->content = "<h1 class='title'>Sorry, G. This wasn't the move.</h1>";
-        }
-
-        public function makeUnexpectedErrorPage(){
-            $this->title = "Yo, what?";
-
-            $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
+            $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
         // ------------ Non-Page stuff ------------
