@@ -73,10 +73,3 @@ footer{
     text-align: center;
     min-height:50px; 
 }
-
-/* Responsive CSS */
-@media screen and (max-width: 800px) {
-    posts {
-      display: block;
-    }
-}
