@@ -65,7 +65,7 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
-        public function allUsersPost(){
+        public function makeGalleryPage(){
             $this->title = "Gallery";
 
             $this->content = "<h1 class='title'>Work in progress.</h1>";
@@ -87,7 +87,7 @@ require_once("Router.php");
         protected function getMenu() {
             return array(
                 "Home" => $this->router->homePage(),
-                "Browse Posts" => $this->router->allUsersPostPage(),
+                "Browse Posts" => $this->router->galleryPage(),
                 "About" => $this->router->aboutPage(),
             );
         }
