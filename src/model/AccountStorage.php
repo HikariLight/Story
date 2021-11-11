@@ -11,8 +11,6 @@ interface AccountStorage {
 
     public function checkAuth($login, $password);
 
-    public function readAll();
-
     public function update($id, Account $a);
 
     public function delete($id);
