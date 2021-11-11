@@ -36,6 +36,10 @@ class Router {
                 case 'home' : 
                     $view->makeHomePage();
                     break;
+                
+                case 'about' : 
+                    $view->makeAboutPage();
+                    break;     
 
                 case 'createPost' :
                     $ctl->newPost();
@@ -58,7 +62,8 @@ class Router {
                     break;
 
                 case 'gallery' :
-                    $ctl->allUsersPost();
+                    // $ctl->allUsersPost();
+                    $view->makeGalleryPage();
                     break;
 
                 case 'createAccount' : 
@@ -84,12 +89,16 @@ class Router {
         return ".";
     }
 
-    public function postPage($id) {
-        return ".?post=$id";
+    public function aboutPage() {
+        return ".?action=about";
     }
 
-    public function allUsersPostPage() {
+    public function galleryPage() {
         return ".?action=gallery";
+    }
+
+    public function postPage($id) {
+        return ".?post=$id";
     }
 
     public function createPostPage() {

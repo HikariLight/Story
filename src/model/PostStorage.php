@@ -1,27 +1,21 @@
 <?php
 
-/*
- *
- */
-
 require_once("Post.php");
 
 interface PostStorage {
-
     public function create(Post $p);
 
     public function read($id);
 
-    // public function readUser($id); return all the post of one single dude ?
+    // public function readUser($id); 
 
-    public function readAll();
+    // public function readAll();
 
-    public function update($id, Post $p);
+    // public function update($id, Post $p);
 
-    public function delete($id);
+    // public function delete($id);
 
-    public function deleteAll(); // really need to include this ? someone can delete everyting
+    // public function deleteAll(); 
 
 }
-
 ?>
