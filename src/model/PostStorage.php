@@ -9,7 +9,7 @@ interface PostStorage {
 
     // public function readUser($id); 
 
-    // public function readAll();
+    public function readAll();
 
     // public function update($id, Post $p);
 
