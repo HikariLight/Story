@@ -63,7 +63,7 @@ class Router {
 
                 case 'gallery' :
                     // $ctl->allUsersPost();
-                    $view->makeGalleryPage();
+                    $view->makeGalleryPage($this->postDB->readAll());
                     break;
 
                 case 'createAccount' : 

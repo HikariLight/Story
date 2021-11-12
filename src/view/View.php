@@ -65,10 +65,17 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
-        public function makeGalleryPage(){
+        public function makeGalleryPage($data){
             $this->title = "Gallery";
 
-            $this->content = "<h1 class='title'>Work in progress.</h1>";
+            $this->content = "";
+
+            $this->content .= "<div class='posts'>";
+            foreach($data as $row){
+                $borderColor = $this->getBorderColor($row);
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+            }
+            $this->content .= "</div>";
         }
 
         public function makeUnknownActionPage(){
@@ -92,26 +99,19 @@ require_once("Router.php");
             );
         }
 
-        public function getPostTitle(Post $post){
-            $pieces = explode(" ", $post->getTitle());
-            $postTitle = implode(" ", array_splice($pieces, 0, 3));
-
-            return $postTitle . "...";
-        }
-
-        public function getBorderColor(Post $post){
-            $type = $post->getType();
+        public function getBorderColor($row){
+            $type = $row->Type;
             $borderColor = "";
 
             switch($type){
                 case "Short story":
-                    $borderColor = ".shortStory";
+                    $borderColor = "shortStory";
                     break;
                 case "Short horror story":
-                    $borderColor = ".shortHorrorStory";
+                    $borderColor = "shortHorrorStory";
                     break;
-                case "joke":
-                    $borderColor = ".joke";
+                case "Joke":
+                    $borderColor = "joke";
                     break;
             }
 

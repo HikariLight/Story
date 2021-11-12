@@ -6,10 +6,18 @@ require_once("model/PostStorage.php");
 
 class PostStorageDB implements PostStorage {
 
+    // For XAMPP
     protected $host = "localhost";
     protected $db = "story";
     protected $user = "root";
     protected $password = "";
+
+    // For Personal Server
+    // protected $host = "mysql.info.unicaen.fr";
+    // protected $db = "NUMETU_bd";
+    // protected $user = "NUMETU";
+    // protected $password = "";
+
     protected $pdo;
 
     public function __construct() {
@@ -38,9 +46,11 @@ class PostStorageDB implements PostStorage {
         return $this->pdo->query($sql);
     }
 
-    // public function readAll() {
-    //     return $this->db->fetchAll();
-    // }
+    public function readAll() {
+        $sql = "SELECT * FROM `Posts`;";
+        $data = $this->pdo->query($sql)->fetchAll();
+        return $data;
+    }
 
     // public function readUser($id){
     //     echo "This is something".$id;

@@ -53,6 +53,17 @@ button{
     color: #AC1933;
 }
 
+.posts{
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+
+.post{
+    background-color: #FFFFFF;
+    margin: 1em;
+    padding: 1em;
+}
+
 .joke{
     border: 1px solid #4AA55B;
 }
@@ -73,3 +84,13 @@ footer{
     text-align: center;
     min-height:50px; 
 }
+
+/* Responsive design */
+@media only screen and (max-width: 600px) {
+    .posts{
+      display: block;
+    }
+    .post{
+        width: 80%;
+    }
+  }
