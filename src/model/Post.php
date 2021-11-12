@@ -1,39 +1,38 @@
 <?php
 
-/* TODO
- * Add title validation (max length ? any specific caractere ?  not empty)
- * Add Type validation (corresponds to one of the two(or more) types)
- * Add Body validation (not empty, max length ? any specific caractere ? any url ?)
- * Add thoses validation to construct and setters
- */
-
 class Post {
 
-    protected $title;
-    protected $body;
+    protected $setup;
+    protected $punchline;
     protected $type;
     protected $dateCreated;
     protected $dateModified;
+    protected $userID;
 
-    public function __contrust($title, $body, $type, $dateCreated = null, $dateModified = null) {
-        $this->title = $title;
-        $this->body = $body;
+    public function __contrust($setup, $punchline, $type, $userID, $dateCreated = null, $dateModified = null) {
+        $this->setup = $setup;
+        $this->punchline = $punchline;
         $this->type = $type;
+        $this->userID = $userID;
         $this->dateCreated = $dateCreated !== null ? $dateCreated : new DateTime();
         $this->dateModified = $dateModified !== null ? $dateModified : new DateTime();
     }
 
     // Getters
-    public function getTitle() {
-        return $this->title;
+    public function getSetup() {
+        return $this->setup;
     }
 
-    public function getBody() {
-        return $this->body;
+    public function getPunchline() {
+        return $this->punchline;
     }
 
     public function getType() {
         return $this->type;
+    }
+
+    public function getUserId() {
+        return $this->UserID;
     }
 
     public function getDateCreated() {
@@ -45,8 +44,8 @@ class Post {
     }
 
     // Setters
-    public function setTitle($title) {
-        $this->title = $title;
+    public function setSetup($setup) {
+        $this->setup = $setup;
         $this->dateModified = new DateTime();
     }
 
@@ -55,8 +54,8 @@ class Post {
         $this->dateModified = new DateTime();
     }
 
-    public function setBody($body) {
-        $this->body = $body;
+    public function setPunchline($punchline) {
+        $this->punchline = $punchline;
         $this->dateModified = new DateTime();
     }
 

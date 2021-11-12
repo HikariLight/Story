@@ -23,7 +23,7 @@ class Account {
         return $this->login;
     }
 
-    public function getHash() {
+    public function getPassword() {
         return $this->password;
     }
 
