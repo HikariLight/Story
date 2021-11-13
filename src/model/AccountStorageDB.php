@@ -69,7 +69,7 @@ class AccountStorageDB implements AccountStorage {
             $stmt = $this->pdo->prepare("SELECT `Password` FROM `Users` WHERE Users.Username = ?");
             $stmt->bindParam(1, $login);
             $stmt->execute();
-            if(password_verify($stmt->fetchColumn(), $password)) {
+            if(password_verify($password, $stmt->fetchColumn())) {
                 // $stmt->close();
                 return true;
             }

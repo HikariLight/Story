@@ -89,16 +89,16 @@ class PostStorageDB implements PostStorage {
         return null;
     }
 
-    public function readUser($id, $reverse=true) {
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Posts` WHERE Posts.User_id = ? )");
-        $stmt->bindParam(1, $id);
+    public function readUser($username, $reverse=true) {
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
+        $stmt->bindParam(1, $username);
         $stmt->execute();
         if($stmt->fetchColumn()) {
-            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id = ? ORDER BY `Creation_Date` DESC");
+            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id IN ( SELECT User_id FROM `Users` WHERE Users.Username = ?) ORDER BY `Creation_Date` DESC");
             if($reverse == false) {
-                $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id = ? ORDER BY `Creation_Date` ASC");
+                $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id IN ( SELECT User_id FROM `Users` WHERE Users.Username = ?) ORDER BY `Creation_Date` ASC");
             }
-            $stmt->bindParam(1, $id);
+            $stmt->bindParam(1, $username);
             if($stmt->execute()) {
                 // $stmt->close();
                 return $stmt->fetchAll();
