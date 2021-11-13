@@ -11,7 +11,7 @@ class AccountStorageDB implements AccountStorage {
     protected $password = "";
     protected $pdo;
 
-    public function __construct($file) {
+    public function __construct() {
         $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->password);
@@ -24,18 +24,22 @@ class AccountStorageDB implements AccountStorage {
 
     public function create(Account $a) {
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
-        $stmt->bindParam(1, $a->getLogin());
-        
-        if (!$stmt->execute()) {
-            $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Status`, `Registry_Date`) VALUES (?, ?, ?)");
-            $stmt->bindParam(1, $a->getLogin());
-            $stmt->bindParam(2, $a->getPassword());
-            $stmt->bindParam(3, $a->getDateCreated());
+        $login = $a->getLogin();
+        $password = $a->getPassword();
+        $date = $a->getDateCreated();
+
+        $stmt->bindParam(1, $login);
+        $stmt->execute();
+        if (!$stmt->fetchColumn()) {
+            $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Creation_Date`) VALUES (?, ?, ?)");
+            $stmt->bindParam(1, $login);
+            $stmt->bindParam(2, $password);
+            $stmt->bindParam(3, $date);
             $stmt->execute();
-            $stmt->close();
+            // $stmt->close();
             return true;
         }
-        $stmt->close();
+        // $stmt->close();
         return false;
     }
 

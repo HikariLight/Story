@@ -67,13 +67,17 @@ class PostStorageDB implements PostStorage {
     }
 
     public function readAll($reverse=true) {
-        $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` DESC");
-        if($reverse == false) {
-            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` ASC");
-        }
-        $res = $stmt->execute();
-        $stmt->close();
-        return $res;
+        // $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` DESC");
+        // if($reverse == false) {
+        //     $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` ASC");
+        // }
+        // $res = $stmt->execute();
+        // $stmt->close();
+        // return $res;
+
+        $sql = "SELECT * FROM `Posts`;";
+        $data = $this->pdo->query($sql)->fetchAll();
+        return $data;
     }
 
     public function readUser($id, $reverse=true) {
