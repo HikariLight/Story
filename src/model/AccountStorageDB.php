@@ -23,80 +23,98 @@ class AccountStorageDB implements AccountStorage {
     }
 
     public function create(Account $a) {
+        $username = $a->getLogin();
+        $password = $a->getPassword();
+        $creationDate = $a->getDateCreated();
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
-        $stmt->bindParam(1, $a->getLogin());
-        
-        if (!$stmt->execute()) {
-            $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Status`, `Registry_Date`) VALUES (?, ?, ?)");
-            $stmt->bindParam(1, $a->getLogin());
-            $stmt->bindParam(2, $a->getPassword());
-            $stmt->bindParam(3, $a->getDateCreated());
-            $stmt->execute();
-            $stmt->close();
-            return true;
+        $stmt->bindParam(1, $username);
+        $stmt->execute();
+        if (!$stmt->fetchColumn()) {
+            $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Creation_Date`) VALUES (?, ?, ?)");
+            $stmt->bindParam(1, $username);
+            $stmt->bindParam(2, $password);
+            $stmt->bindParam(3, $creationDate);
+            if($stmt->execute()) {
+                // $stmt->close();
+                return true;
+            }
+            return null;
         }
-        $stmt->close();
-        return false;
+        // $stmt->close();
+        return null;
     }
 
     public function read($id) {
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Users` WHERE Users.User_id = ?)");
         $stmt->bindParam(1, $id);
-        if ($stmt->execute()) {
+        $stmt->execute();
+        if ($stmt->fetchColumn()) {
             $stmt = $this->pdo->prepare("SELECT `User_id`,`Username`,`Creation_Date` FROM `Users` WHERE Users.User_id = ?");
-            $stmt->bindParam(1,$id);
-            $res = $stmt->execute();
-            $stmt->close();
-            return $res;
+            $stmt->bindParam(1, $id);
+            if($stmt->execute()) {
+                // $stmt->close();
+                return $stmt->fetchAll();
+            }
+            return null;
         }
-        $stmt->close();
+        // $stmt->close();
         return null;
     }
 
     public function checkAuth($login, $password) {
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
         $stmt->bindParam(1, $login);
-        if($stmt->execute()) {
+        $stmt->execute();
+        if($stmt->fetchColumn()) {
             $stmt = $this->pdo->prepare("SELECT `Password` FROM `Users` WHERE Users.Username = ?");
             $stmt->bindParam(1, $login);
-            if(password_verify($stmt->execute(), $password)) {
-                $stmt->close();
+            $stmt->execute();
+            if(password_verify($stmt->fetchColumn(), $password)) {
+                // $stmt->close();
                 return true;
             }
-            $stmt->close();
-            return false;
+            // $stmt->close();
+            return null;
         }
-        $stmt->close();
+        // $stmt->close();
         return null;
     }
 
     public function update($id, Account $a) {
+        $password = $a->getPassword();
+        
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
         $stmt->bindParam(1, $id);
-        if ($stmt->execute()) {
+        $stmt->execute();
+        if ($stmt->fetchColumn()) {
             $stmt = $this->pdo->prepare("UPDATE `Users` SET `Password` = ? WHERE Users.User_id = ?");
-            $stmt->bindParam(1, $a->getPassword());
+            $stmt->bindParam(1, $password);
             $stmt->bindParam(2, $id);
-            $stmt->execute();
-            $stmt->close();
-            return true;
+            if($stmt->execute()) {
+                // $stmt->close();
+                return true;
+            }
+            return null;
         }
-        $stmt->close();
-        return false;
+        // $stmt->close();
+        return null;
     }
 
     public function delete($id) {
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
         $stmt->bindParam(1, $id);
-        if ($stmt->execute()) {
+        $stmt->execute();
+        if ($stmt->fetchColumn()) {
             $stmt = $this->pdo->prepare("DELETE FROM `Users` WHERE Users.User_id = ?");
             $stmt->bindParam(1, $id);
-            $stmt->execute();
-            $stmt->close();
-            return true;
+            if($stmt->execute()) {
+                // $stmt->close();
+                return true;
+            }
+            return null;
         }
-        $stmt->close();
-        return false;
+        // $stmt->close();
+        return null;
     }
 
 }
