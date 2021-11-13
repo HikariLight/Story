@@ -5,9 +5,9 @@ class Post {
     protected $setup;
     protected $punchline;
     protected $type;
+    protected $userID;
     protected $dateCreated;
     protected $dateModified;
-    protected $userID;
 
     public function __contrust($setup, $punchline, $type, $userID, $dateCreated = null, $dateModified = null) {
         $this->setup = $setup;
