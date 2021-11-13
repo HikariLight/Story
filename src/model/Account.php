@@ -15,7 +15,7 @@ class Account {
             throw new Exception("Invalid Password");
         }
         $this->password = password_hash($password, PASSWORD_BCRYPT);
-        $this->dateCreated = $this->dateCreated !== null ? $dateCreated : new DateTime();
+        $this->dateCreated = $this->dateCreated !== null ? $dateCreated : new DateTime('NOW');
     }
 
     // Getters
@@ -48,7 +48,7 @@ class Account {
 
     // Methods
     public function isValidLogin($login) {
-        return mb_strlen($login, 'UTF-8') <= 32 && $login !== ""; //&& preg_match("/^[0-9a-zA-Z]$/i", $login);
+        return mb_strlen($login, 'UTF-8') <= 32 && $login !== "" && preg_match("/^[0-9a-zA-Z]+$/i", $login); 
     }
 
     public function isValidPassword($password) {
