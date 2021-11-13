@@ -13,8 +13,7 @@ class Router {
     // Main function
     public function main() {
         $view = new View($this);
-        $ctl = new Controller($view, $this->postDB);
-        // [...]
+        $controller = new Controller($view, $this->postDB);
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $action = key_exists('action', $_GET) ? $_GET['action'] : null;
@@ -29,7 +28,7 @@ class Router {
                     if ($postId === null) {
                         $view->makeUnknowActionPage();
                     } else {
-                        $ctl->postPage($postId);
+                        $controller->postPage($postId);
                     }
                     break;
 
@@ -37,19 +36,23 @@ class Router {
                     $view->makeHomePage();
                     break;
                 
+                case 'gallery' :
+                    $controller->galleryPage();
+                    break;
+                
                 case 'about' : 
                     $view->makeAboutPage();
-                    break;     
+                    break; 
 
                 case 'createPost' :
-                    $ctl->newPost();
+                    $controller->newPost();
                     break;
 
                 case 'deletePost' : 
                     if ($postId == null) {
                         $view->makeUnknownActionPage();
                     } else {
-                        $ctl->deletePost($postId);
+                        $controller->deletePost($postId);
                     }
                     break;
 
@@ -57,13 +60,8 @@ class Router {
                     if ($postId == null) {
                         $view->makeUnknownActionPage();
                     } else {
-                        $ctl->modifyPost($postId);
+                        $controller->modifyPost($postId);
                     }
-                    break;
-
-                case 'gallery' :
-                    // $ctl->allUsersPost();
-                    $view->makeGalleryPage($this->postDB->readAll());
                     break;
 
                 case 'createAccount' : 
