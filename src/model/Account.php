@@ -1,21 +1,21 @@
 <?php 
 
-/*
- * Where the password hash is located ?
- */
-
 class Account {
 
     protected $login;
     protected $password;
     protected $dateCreated;
-    protected $status;
 
-    public function __contrust($login, $password, $dateCreated = null, $status = "user") {
+    public function __contrust($login, $password, $dateCreated = null) {
+        if(!self::isValidLogin($login)) {
+            throw new Exception("Invalid Username");
+        }
         $this->login = $login;
+        if(!self::isValidPassword($password)) {
+            throw new Exception("Invalid Password");
+        }
         $this->password = password_hash($password, PASSWORD_BCRYPT);
         $this->dateCreated = $dateCreated !== null ? $dateCreated : new DateTime();
-        $this->status = $status;
     }
 
     // Getters
@@ -31,26 +31,29 @@ class Account {
         return $this->dateCreated;
     }
 
-    public function getStatus() {
-        return $this->status;
-    }
-
     // Setters
     public function setLogin($login) {
+        if(!self::isValidLogin($login)) {
+            throw new Exception("Invalid Username");
+        }
         $this->login = $login;
     }
 
     public function setPassword($password) {
+        if(!self::isValidPassword($password)) {
+            throw new Exception("Invalid Password");
+        }
         $this->password = password_hash($password, PASSWORD_BCRYPT);
     }
 
-    public function setStatus($status) {
-        $this->status = $status;
+    // Methods
+    public function isValidLogin($login) {
+        return mb_strlen($login, 'UTF-8') <= 32 && $login !== "" && preg_match("/^[0-9a-zA-Z]$/i", $login);
     }
 
-    // Methods
-
-    //isValid methods
+    public function isValidPassword($password) {
+        return mb_strlen($password, 'UTF-8') > 6;
+    }
 }
 
 ?>
