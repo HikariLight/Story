@@ -6,7 +6,7 @@ class Account {
     protected $password;
     protected $dateCreated;
 
-    public function __contrust($login, $password, $dateCreated = null) {
+    public function __construct($login, $password) {
         if(!self::isValidLogin($login)) {
             throw new Exception("Invalid Username");
         }
@@ -15,7 +15,7 @@ class Account {
             throw new Exception("Invalid Password");
         }
         $this->password = password_hash($password, PASSWORD_BCRYPT);
-        $this->dateCreated = $dateCreated !== null ? $dateCreated : new DateTime();
+        $this->dateCreated = $this->dateCreated !== null ? $dateCreated : new DateTime();
     }
 
     // Getters
@@ -28,7 +28,7 @@ class Account {
     }
 
     public function getDateCreated() {
-        return $this->dateCreated;
+        return $this->dateCreated->format('Y-m-d H:i:s');
     }
 
     // Setters
@@ -48,7 +48,7 @@ class Account {
 
     // Methods
     public function isValidLogin($login) {
-        return mb_strlen($login, 'UTF-8') <= 32 && $login !== "" && preg_match("/^[0-9a-zA-Z]$/i", $login);
+        return mb_strlen($login, 'UTF-8') <= 32 && $login !== ""; //&& preg_match("/^[0-9a-zA-Z]$/i", $login);
     }
 
     public function isValidPassword($password) {
