@@ -11,7 +11,7 @@ class AccountStorageDB implements AccountStorage {
     protected $password = "";
     protected $pdo;
 
-    public function __construct($file) {
+    public function __construct() {
         $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db;
         try {
             $this->pdo = new PDO($dsn, $this->user, $this->password);

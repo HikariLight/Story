@@ -58,32 +58,6 @@ require_once("Router.php");
             );
         }
 
-        public function getPostTitle(Post $post){
-            $pieces = explode(" ", $post->getTitle());
-            $postTitle = implode(" ", array_splice($pieces, 0, 3));
-
-            return $postTitle . "...";
-        }
-
-        public function getBorderColor(Post $post){
-            $type = $post->getType();
-            $borderColor = "";
-
-            switch($type){
-                case "Short story":
-                    $borderColor = ".shortStory";
-                    break;
-                case "Short horror story":
-                    $borderColor = ".shortHorrorStory";
-                    break;
-                case "joke":
-                    $borderColor = ".joke";
-                    break;
-            }
-
-            return $borderColor;
-        }
-
         public function render(){
             if ($this->title === null || $this->content === null) {
                 $this->makeUnexpectedErrorPage();

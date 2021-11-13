@@ -1,10 +1,14 @@
 body{
     margin: 0;
     min-height: 100vh; 
-    background-color: #EEEEEE;
+    background-color: #E5E5E5;
     font-family: Helvetica, Arial, Verdana;
     display: grid;
     grid-template-rows: auto 1fr auto;
+}
+
+header{ 
+    min-height:50px;
 }
 
 nav{
@@ -33,23 +37,38 @@ main{
 }
 
 .title{
+    text-align: center;
     color: #AC1933;
 }
 
 button{
-    border: none;
-    border-radius: 25px;
     padding: 1.25em 2em;
     margin: 0.5em;
 }
 
+button a{
+    text-decoration: none;
+}
+
 .coloredBackgroundButton{
+    border-radius: 25px;
+    border: none;
     background-color: #AC1933;
     color: white;
 }
 
+.coloredBackgroundButton a{
+    color: white;
+}
+
 .coloredTextButton{
+    border-radius: 25px;
+    border: 1px solid #AC1933;
     background-color: white;
+    color: #AC1933;
+}
+
+.coloredTextButton a{
     color: #AC1933;
 }
 
@@ -76,8 +95,15 @@ button{
     border: 1px solid #AC1933;
 }
 
-header{ 
-    min-height:50px;
+form{
+    text-align: center;
+}
+
+input{
+    display: block;
+    padding: 1em;
+    margin: 0.5em;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
 }
 
 footer{
