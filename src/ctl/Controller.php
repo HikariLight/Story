@@ -2,22 +2,27 @@
 
     require_once("model/Post.php");
     require_once("model/Account.php");
+
     require_once("model/PostBuilder.php");
     require_once("model/AccountBuilder.php");
+
     require_once("model/PostStorageDB.php");
     require_once("model/AccountStorageDB.php");
+    
     require_once("view/View.php");
     require_once("view/AuthView.php");
 
     class Controller{
         protected $view;
+        protected $authView;
         protected $postDB;
         protected $accountDB;
         protected $postBuilder;
         protected $accountBuilder;
 
-        public function __construct(View $view, PostStorageDB $postDB, AccountStorageDB $accountDB){
+        public function __construct(View $view, AuthView $authView, PostStorageDB $postDB, AccountStorageDB $accountDB){
             $this->view = $view;
+            $this->authView = $authView;
             $this->postDB = $postDB;
             $this->accountDB = $accountDB;
 
@@ -45,7 +50,26 @@
             $this->view->makeGalleryPage($data);
         }
 
-        public function createPost(){}
+        public function newPost(){
+            if ($this->postBuilder === null) {
+                $this->postBuilder = new PostBuilder();
+            }
+            $this->authView->makeCreatePostPage($this->postBuilder);
+        }
+
+        public function saveNewPost(array $data){
+            $this->postBuilder = new PostBuilder($data);
+
+            echo "The other how you doing";
+            if ($this->postBuilder->isValid()) {
+                $post = $this->postBuilder->createPost();
+                $postId = $this->postDB->create($post);
+                $this->postBuilder = null;
+                $this->authView->makePostCreatedPage();
+            } else {
+                $this->view->makeErrorPage();
+            }
+        }        
 
         public function newAccount(){
             if ($this->accountBuilder === null) {
@@ -54,7 +78,7 @@
             $this->view->makeSignUpPage($this->accountBuilder);
         }
 
-        public function createAccount(array $data){
+        public function saveNewAccount(array $data){
             $this->accountBuilder = new AccountBuilder($data);
             if ($this->accountBuilder->isValid()) {
                 $account = $this->accountBuilder->createAccount();

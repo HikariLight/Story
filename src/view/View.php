@@ -21,8 +21,9 @@ require_once("Router.php");
 
             $this->content = "
             <h1 class='title'>Tell a Story.</h1>";
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=createAccount'>Sign up</a></button>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
             $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>New Post</a></button>";
         }
 
         public function makeAboutPage(){

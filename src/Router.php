@@ -23,7 +23,9 @@ class Router{
 		$_SESSION['feedback'] = '';
 
         $view = new View($this);
-        $controller = new Controller($view, $this->postDB, $this->accountDB);
+        $authView = new AuthView($this);
+
+        $controller = new Controller($view, $authView, $this->postDB, $this->accountDB);
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -35,6 +37,7 @@ class Router{
 
         try {
             switch ($action) {
+
                 case 'showPost': 
                     if ($postId === null) {
                         $view->makeErrorPage();
@@ -55,25 +58,25 @@ class Router{
                     $view->makeAboutPage();
                     break; 
 
-                case 'createPost':
-                    $controller->createPost($_POST);
+                case 'login': 
+                    $view->makeLoginPage();
                     break;
 
-                case 'createAccount':
+                case 'newAccount':
                     $controller->newAccount();
                     break;
                 
-                case 'saveAccount':
-                    $accountID = $controller->createAccount($_POST);
-                    break;     
+                case 'saveNewAccount':
+                    $accountID = $controller->saveNewAccount($_POST);
+                    break; 
                 
-                case 'deletePost': 
-                    if ($postId == null) {
-                        $view->makeUnknownActionPage();
-                    } else {
-                        $controller->deletePost($postId);
-                    }
+                case 'newPost':
+                    $controller->newPost();
                     break;
+                    
+                case 'saveNewPost':
+                    $postID = $controller->saveNewPost($_POST);
+                    break;    
 
                 case 'modifyPost': 
                     if ($postId == null) {
@@ -82,13 +85,13 @@ class Router{
                         $controller->modifyPost($postId);
                     }
                     break;
-
-                case 'login': 
-                    $view->makeLoginPage();
-                    break;
                 
-                case 'signup':
-                    $view->makeSignUpPage();
+                case 'deletePost': 
+                    if ($postId == null) {
+                        $view->makeUnknownActionPage();
+                    } else {
+                        $controller->deletePost($postId);
+                    }
                     break;
 
                 default : 
@@ -115,20 +118,24 @@ class Router{
         return ".?action=gallery";
     }
 
-    public function postPage($id) {
-        return ".?post=$id";
-    }
-
-    public function createPostPage() {
-        return ".?action=createPost";
-    }
-
-    public function createNewAccount(){
-        return ".?action=createAccount";
+    public function newAccount(){
+        return ".?action=newAccount";
     }
 
     public function saveNewAccount(){
-        return ".?action=saveAccount";
+        return ".?action=saveNewAccount";
+    }
+
+    public function newPost(){
+        return ".?action=newPost";
+    }
+
+    public function saveNewPost(){
+        return ".?action=saveNewPost";
+    }
+
+    public function postPage($id) {
+        return ".?post=$id";
     }
 
     public function modifyPostPage($id) {
