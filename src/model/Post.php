@@ -9,13 +9,13 @@ class Post {
     protected $dateCreated;
     protected $dateModified;
 
-    public function __contrust($setup, $punchline, $type, $userID, $dateCreated = null, $dateModified = null) {
+    public function __construct($setup, $punchline, $type, $userID, $dateCreated = null, $dateModified = null) {
         $this->setup = $setup;
         $this->punchline = $punchline;
         $this->type = $type;
         $this->userID = $userID;
-        $this->dateCreated = $dateCreated !== null ? $dateCreated : new DateTime();
-        $this->dateModified = $dateModified !== null ? $dateModified : new DateTime();
+        $this->dateCreated = $dateCreated !== null ? $dateCreated : new DateTime('NOW');
+        $this->dateModified = $dateModified !== null ? $dateModified : new DateTime('NOW');
     }
 
     // Getters
@@ -32,31 +32,31 @@ class Post {
     }
 
     public function getUserId() {
-        return $this->UserID;
+        return $this->userID;
     }
 
     public function getDateCreated() {
-        return $this->dateCreated;
+        return $this->dateCreated->format('Y-m-d H:i:s');
     }
 
     public function getDateModified() {
-        return $this->dateModified;
+        return $this->dateModified->format('Y-m-d H:i:s');
     }
 
     // Setters
     public function setSetup($setup) {
         $this->setup = $setup;
-        $this->dateModified = new DateTime();
+        $this->dateModified = new DateTime('NOW');
     }
 
     public function setType($type) {
         $this->type = $type;
-        $this->dateModified = new DateTime();
+        $this->dateModified = new DateTime('NOW');
     }
 
     public function setPunchline($punchline) {
         $this->punchline = $punchline;
-        $this->dateModified = new DateTime();
+        $this->dateModified = new DateTime('NOW');
     }
 
     // Methods
@@ -65,7 +65,7 @@ class Post {
     }
 
     public function isTypeValid($type) {
-        return mb_strlen($type, 'UTF-8') < 20 && $type !== "" && preg_match("/^[a-zA-Z]$/i", $type);
+        return mb_strlen($type, 'UTF-8') < 20 && $type !== "" && preg_match("/^[a-zA-Z]+$/i", $type);
     }
 
     public function isPunchlineValid($punchline) {
