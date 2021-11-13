@@ -10,8 +10,8 @@ class PostBuilder {
 	public function __construct($data=null) {
 		if ($data === null) {
 			$data = array(
-				"title" => "",
-				"body" => "",
+				"setup" => "",
+				"punchline" => "",
                 "type" => "",
 			);
 		}
@@ -21,44 +21,41 @@ class PostBuilder {
 
     public static function buildFromPost(Post $post) {
 		return new PostBuilder(array(
-			"title" => $post->getTitle(),
-			"body" => $post->getBody(),
+			"setup" => $post->getSetup(),
+			"punchline" => $post->getPunchline(),
             "type" => $post->getType(),
 		));
 	}
 
     public function isValid() {
 		$this->errors = array();
-        // title
-		if (!key_exists("title", $this->data) || $this->data["title"] === "") {
-            $this->errors["title"] = "Vous devez entrer un titre";
+        // setup
+		if (!key_exists("setup", $this->data) || $this->data["setup"] === "") {
+            $this->errors["setup"] = "Vous devez entrer un titre";
         }
-		else if (mb_strlen($this->data["title"], 'UTF-8') >= 30) {
-            $this->errors["title"] = "Le titre doit faire moins de 30 caractères";
+		else if (mb_strlen($this->data["setup"], 'UTF-8') >= 200) {
+            $this->errors["setup"] = "Le titre doit faire moins de 200 caractères";
         }
-        // body
-        if (!key_exists("body", $this->data) || $this->data["body"] === "") {
-            $this->errors["body"] = "Vous devez entrer une histoire";
+        // punchline
+        if (!key_exists("punchline", $this->data) || $this->data["punchline"] === "") {
+            $this->errors["punchline"] = "Vous devez entrer une histoire";
         }
-		else if (mb_strlen($this->data["body"], 'UTF-8') >= 2500) {
-            $this->errors["title"] = "Le titre doit faire moins de 2500 caractères";
+		else if (mb_strlen($this->data["punchline"], 'UTF-8') >= 200) {
+            $this->errors["setup"] = "L'histoire doit faire moins de 200 caractères";
         }
         // type
 		if (!key_exists("type", $this->data) || $this->data["type"] === "") {
-            $this->errors["type"] = "Vous devez entrer un type";
-        }
-		else if ($this->data["type"] === "story" || $this->data["type"] === "horror story" || $this->data["type"] === "joke") {
-            $this->errors["type"] = "Vous devez choisir un type dans la liste";
+            $this->errors["type"] = "Vous devez sélectionner un type";
         }
 		return count($this->errors) === 0;
 	}
 
-    public function getTitleRef() {
-		return "title";
+    public function getSetupRef() {
+		return "setup";
 	}
 
-	public function getBodyRef() {
-		return "body";
+	public function getPunchlineRef() {
+		return "punchline";
 	}
 
     public function getTypeRef() {
@@ -69,23 +66,23 @@ class PostBuilder {
 		return key_exists($ref, $this->data) ? $this->data[$ref] : '';
 	}
 
-	public function getErrors($ref) { // Call isValid() before using it
+	public function getErrors($ref) {
 		return key_exists($ref, $this->errors )? $this->errors[$ref] : null;
 	}
 
 	public function createPost() {
-		if (!key_exists("title", $this->data) || !key_exists("body", $this->data) || !key_exists("type", $this->data)) {
+		if (!key_exists("setup", $this->data) || !key_exists("punchline", $this->data) || !key_exists("type", $this->data)) {
             throw new Exception("Missing fields for post creation");
         }
-		return new Post($this->data["title"], $this->data["body"], $this->data["type"]);
+		return new Post($this->data["setup"], $this->data["punchline"], $this->data["type"]);
 	}
 
 	public function updatePost(Post $post) {
-		if (key_exists("title", $this->data)) {
-            $post->setTitle($this->data["title"]);
+		if (key_exists("setup", $this->data)) {
+            $post->setSetup($this->data["setup"]);
         }
-		if (key_exists("body", $this->data)) {
-            $post->setBody($this->data["body"]);
+		if (key_exists("punchline", $this->data)) {
+            $post->setPunchline($this->data["punchline"]);
         }
         if (key_exists("type", $this->data)) {
             $post->setType($this->data["type"]);
