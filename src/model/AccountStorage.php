@@ -1,6 +1,5 @@
 <?php
 
-
 require_once("Account.php");
 
 interface AccountStorage {
