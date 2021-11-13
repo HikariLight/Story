@@ -60,17 +60,17 @@ class Post {
     }
 
     // Methods
-/*     public function isTitleValid($title) {
-
+    public function isSetupValid($setup) {
+        return mb_strlen($setup, 'UTF-8') < 200 && $setup !== "";
     }
 
-    public function isTypeValid($title) {
-        
+    public function isTypeValid($type) {
+        return mb_strlen($type, 'UTF-8') < 20 && $type !== "" && preg_match("/^[a-zA-Z]$/i", $type);
     }
 
-    public function isBodyValid($title) {
-        
-    } */
+    public function isPunchlineValid($punchline) {
+        return mb_strlen($punchline, 'UTF-8') < 200 && $punchline !== "";
+    }
 
 }
 

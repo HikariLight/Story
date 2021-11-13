@@ -3,7 +3,7 @@
 require_once("model/Account.php");
 require_once("model/AccountStorage.php");
 
-class AccountStorageStub implements AccountStorage {
+class AccountStorageDB implements AccountStorage {
 
     protected $db = "story";
     protected $host = "localhost";
@@ -23,18 +23,14 @@ class AccountStorageStub implements AccountStorage {
     }
 
     public function create(Account $a) {
-        $password = $a->getPassword();
-        $date = $a->getDateCreated();
-        $login = $a->getLogin();
-
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
-        $stmt->bindParam(1, $login);
+        $stmt->bindParam(1, $a->getLogin());
         
         if (!$stmt->execute()) {
             $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Status`, `Registry_Date`) VALUES (?, ?, ?)");
-            $stmt->bindParam(1, $login);
-            $stmt->bindParam(2, $password);
-            $stmt->bindParam(3, $date);
+            $stmt->bindParam(1, $a->getLogin());
+            $stmt->bindParam(2, $a->getPassword());
+            $stmt->bindParam(3, $a->getDateCreated());
             $stmt->execute();
             $stmt->close();
             return true;
@@ -78,9 +74,8 @@ class AccountStorageStub implements AccountStorage {
         $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
         $stmt->bindParam(1, $id);
         if ($stmt->execute()) {
-            $pwd = $a->getPassword();
             $stmt = $this->pdo->prepare("UPDATE `Users` SET `Password` = ? WHERE Users.User_id = ?");
-            $stmt->bindParam(1, $pwd);
+            $stmt->bindParam(1, $a->getPassword());
             $stmt->bindParam(2, $id);
             $stmt->execute();
             $stmt->close();

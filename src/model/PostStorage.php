@@ -5,17 +5,17 @@ require_once("Post.php");
 interface PostStorage {
     public function create(Post $p);
 
-    public function read($id);
+    public function read($id); 
 
-    // public function readUser($id); 
+    public function readAll($reverse=true);
 
-    public function readAll();
+    public function readUser($id, $reverse=true);
 
-    // public function update($id, Post $p);
+    public function selectType($type, $reverse=true);
 
-    // public function delete($id);
+    public function update($id, Post $p);
 
-    // public function deleteAll(); 
-
+    public function delete($id);
 }
+
 ?>

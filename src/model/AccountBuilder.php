@@ -29,8 +29,8 @@ class AccountBuilder {
         $this->errors = array();
         if (!key_exists("login", $this->data) || $this->data["login"] === "") {
             $this->errors["login"] = "Vous devez entrer un login";
-        } else if (mb_strlen($this->data["login"], 'UTF-8') >= 30) {
-            $this->errors["login"] = "Le login doit faire moins de 30 caractères";
+        } else if (mb_strlen($this->data["login"], 'UTF-8') >= 32) {
+            $this->errors["login"] = "Le login doit faire moins de 32 caractères";
         } else if (preg_match("/^[0-9a-zA-Z]$/i", $this->data["login"])) {
             $this->errors["login"] = "Le login ne doit pas contenir de symbole.";
         } else if (!key_exists("password", $this->data) || $this->data["password"] === "") {
