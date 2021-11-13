@@ -138,7 +138,7 @@ require_once("Router.php");
             $s .="</label></p>\n";
     
             $passwordRef = $builder->getpasswordRef();
-            $s .= '<p><label>Password: <input type="text" name="'.$passwordRef.'" value="';
+            $s .= '<p><label>Password: <input type="password" name="'.$passwordRef.'" value="';
             $s .= self::htmlesc($builder->getData($passwordRef));
             $s .= '" ';
             $s .= '	/>';
