@@ -71,7 +71,12 @@ class Router {
                     break;
 
                 case 'login' : 
-                    $view->makeLoginFormPage();
+                    $view->makeLoginPage();
+                    break;
+                
+                case 'signup':
+                    $view->makeSignUpPage();
+                    break;
 
                 default : 
                     $view->makeUnknownActionPage();
