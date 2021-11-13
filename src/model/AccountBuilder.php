@@ -31,10 +31,10 @@ class AccountBuilder {
             $this->errors["login"] = "Vous devez entrer un login";
         } else if (mb_strlen($this->data["login"], 'UTF-8') >= 30) {
             $this->errors["login"] = "Le login doit faire moins de 30 caractères";
+        } else if (preg_match("/^[0-9a-zA-Z]$/i", $this->data["login"])) {
+            $this->errors["login"] = "Le login ne doit pas contenir de symbole.";
         } else if (!key_exists("password", $this->data) || $this->data["password"] === "") {
             $this->errors["password"] = "Vous devez entrer un mot de passe";
-        } else if (!preg_match("", $this->data["password"])) { // To complete but not sure if we need to do that
-            $this->errors["password"] = "Vous devez utilisé au minimum un caractère spécial, un chiffre, et une lettre";
         } else if (mb_strlen($this->data["password"], 'UTF-8') <= 6) {
             $this->errors["password"] = "Le mot de passe doit faire plus de 6 caractères";
         }
