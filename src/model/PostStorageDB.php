@@ -32,48 +32,117 @@ class PostStorageDB implements PostStorage {
     }
 
     public function create(Post $p) {
-        $title = $p->getTitle();
-        $body = $p->getBody();
-        $type = $p->getType();
-        $date = $p->getDateCreated();
-
-        $sql = "INSERT INTO `Posts` (`Post_ID`, `User_ID`, `Title`, `Body`, `Type`, `Creation_Date`) VALUES (1, 1, $title, $body, $type, $date)";
-        $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Users` WHERE Users.User_id = ? )");
+        $stmt->bindParam(1, $p->getUserId());
+        
+        if (!$stmt->execute()) {
+            $stmt = $this->pdo->prepare("INSERT INTO `Posts` (`User_id`, `Setup`, `Punchline`, `Type`, `Creation_Date`, `Modification_Date`) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bindParam(1, $p->getUserId());
+            $stmt->bindParam(2, $p->getSetup());
+            $stmt->bindParam(3, $p->getPunchline());
+            $stmt->bindParam(4, $p->getType());
+            $stmt->bindParam(5, $p->getDateCreated());
+            $stmt->bindParam(6, $p->getDateModified());
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        $stmt->close();
+        return false;
     }
 
     public function read($id) {
-        $sql = "SELECT * FROM `Posts` WHERE Posts.Post_ID = $id";
-        return $this->pdo->query($sql);
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Post_id` FROM `Posts` WHERE Posts.Post_id = ? )");
+        $stmt->bindParam(1, $id);
+
+        if (!$stmt->execute()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.Post_id = ?");
+            $stmt->bindParam(1, $id);
+            $res = $stmt->execute();
+            $stmt->close();
+            return $res;
+        }
+        $stmt->close();
+        return false;
     }
 
-    public function readAll() {
-        $sql = "SELECT * FROM `Posts`;";
-        $data = $this->pdo->query($sql)->fetchAll();
-        return $data;
+    public function readAll($reverse=true) {
+        $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` DESC");
+        if($reverse == false) {
+            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` ORDER BY `Creation_Date` ASC");
+        }
+        $res = $stmt->execute();
+        $stmt->close();
+        return $res;
     }
 
-    // public function readUser($id){
-    //     echo "This is something".$id;
-    // }
+    public function readUser($id, $reverse=true) {
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Posts` WHERE Posts.User_id = ? )");
+        $stmt->bindParam(1, $id);
 
-    // public function update($id, Post $p) {
-    //     if ($this->db->exists($id)) {
-    //         $this->db->update($id, $p);
-    //         return true;
-    //     }
-    //     return false;
-    // }
+        if (!$stmt->execute()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id = ? ORDER BY `Creation_Date` DESC");
+            if($reverse == false) {
+                $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.User_id = ? ORDER BY `Creation_Date` ASC");
+            }
+            $stmt->bindParam(1, $id);
+            $res = $stmt->execute();
+            $stmt->close();
+            return $res;
+        }
+        $stmt->close();
+        return false;
+    }
 
-    // public function delete($id) {
-    //     if ($this->db->exists($id)) {
-    //         $this->db->delete($id);
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    public function selectType($type, $reverse=true) {
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Type` FROM `Posts` WHERE Posts.Type = ? )");
+        $stmt->bindParam(1, $type);
 
-    // public function deleteAll() {
-    //     $this->db->deleteAll();
-    // }
+        if (!$stmt->execute()) {
+            $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.Type = ? ORDER BY `Creation_Date` DESC");
+            if($reverse == false) {
+                $stmt = $this->pdo->prepare("SELECT * FROM `Posts` WHERE Posts.Type = ? ORDER BY `Creation_Date` ASC");
+            }
+            $stmt->bindParam(1, $type);
+            $res = $stmt->execute();
+            $stmt->close();
+            return $res;
+        }
+        $stmt->close();
+        return false;
+    }
+
+    public function update($id, Post $p) {
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Post_id` FROM `Posts` WHERE Posts.Post_id = ? )");
+        $stmt->bindParam(1, $id);
+
+        if (!$stmt->execute()) {
+            $stmt = $this->pdo->prepare("UPDATE `Posts` SET `Setup` = ?, `Punchline` = ?, `Type` = ?, `Modification_Date` = ? WHERE Posts.Post_id = ?");
+            $stmt->bindParam(1, $p->getSetup());
+            $stmt->bindParam(2, $p->getPunchline());
+            $stmt->bindParam(3, $p->getType());
+            $stmt->bindParam(4, $p->getDateModified());
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        $stmt->close();
+        return false;
+    }
+
+    public function delete($id) {
+        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Post_id` FROM `Posts` WHERE Posts.Post_id = ?)");
+        $stmt->bindParam(1, $id);
+        if ($stmt->execute()) {
+            $stmt = $this->pdo->prepare("DELETE FROM `Posts` WHERE Posts.Post_id = ?");
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $stmt->close();
+            return true;
+        }
+        $stmt->close();
+        return false;
+    }
+
 }
 ?>
