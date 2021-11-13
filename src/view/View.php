@@ -19,13 +19,10 @@ require_once("Router.php");
         public function makeHomePage(){
             $this->title = "Home";
 
-            $this->style = "body{text-align: center}";
-
             $this->content = "
-            <h1 class='title'>Tell a Story.</h1>
-            <button class='coloredBackgroundButton'>Sign up</button>
-            <button class='coloredTextButton'>Login</button>
-            ";
+            <h1 class='title'>Tell a Story.</h1>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=signup'>Sign up</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
         }
 
         public function makeAboutPage(){
@@ -56,13 +53,24 @@ require_once("Router.php");
         public function makeSignUpPage(){
             $this->title = "Sign Up";
 
-            $this->content = "<h1 class='title'>Work in progress</h1>";
+            $this->content = "<h1 class='title'>Sign Up</h1>";
+            $this->content .= "<form>";
+            $this->content .= "Username: <input type='text'>";
+            $this->content .= "Password: <input type='password'>";
+            $this->content .= "Repeat Password<input type='password'>";
+            $this->content .= "<input class='coloredBackgroundButton' type='submit' name='submit' value='Submit'>";
+            $this->content .= "</form>";
         }
 
         public function makeLoginPage(){
             $this->title = "Login";
 
-            $this->content = "<h1 class='title'>Work in progress</h1>";
+            $this->content = "<h1 class='title'>Login</h1>";
+            $this->content .= "<form>";
+            $this->content .= "Username: <input type='text'>";
+            $this->content .= "Password: <input type='password'>";
+            $this->content .= "<input class='coloredBackgroundButton' type='submit' name='submit' value='Submit'>";
+            $this->content .= "</form>";
         }
 
         public function makeGalleryPage($data){
@@ -84,10 +92,11 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Sorry, G. This wasn't the move.</h1>";
         }
 
-        public function makeUnexpectedErrorPage(){
+        public function makeUnexpectedErrorPage($e){
             $this->title = "Yo, what?";
 
-            $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
+            // $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
+            $this->content = "echo $e";
         }
 
         // ------------ Non-Page stuff ------------
