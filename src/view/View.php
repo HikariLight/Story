@@ -21,7 +21,7 @@ require_once("Router.php");
 
             $this->content = "
             <h1 class='title'>Tell a Story.</h1>";
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=signup'>Sign up</a></button>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=createAccount'>Sign up</a></button>";
             $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
         }
 
@@ -50,16 +50,14 @@ require_once("Router.php");
             ";
         }
 
-        public function makeSignUpPage(){
+        public function makeSignUpPage(AccountBuilder $builder){
             $this->title = "Sign Up";
 
             $this->content = "<h1 class='title'>Sign Up</h1>";
-            $this->content .= "<form>";
-            $this->content .= "Username: <input type='text'>";
-            $this->content .= "Password: <input type='password'>";
-            $this->content .= "Repeat Password<input type='password'>";
-            $this->content .= "<input class='coloredBackgroundButton' type='submit' name='submit' value='Submit'>";
-            $this->content .= "</form>";
+            $this->content .= '<form action="'.$this->router->saveNewAccount().'" method="POST">'."\n";
+            $this->content .= self::getAccountFormFields($builder);
+            $this->content .= "<button class='coloredBackgroundButton'>Sign Up</button>\n";
+            $this->content .= "</form>\n";
         }
 
         public function makeLoginPage(){
@@ -86,17 +84,17 @@ require_once("Router.php");
             $this->content .= "</div>";
         }
 
-        public function makeUnknownActionPage(){
-            $this->title = "Yo, what?";
+        public function makeAccountCreatedPage(){
+            $this->title = "Welcome!";
 
-            $this->content = "<h1 class='title'>Sorry, G. This wasn't the move.</h1>";
+            $this->content = "<h1 class='title'>Account Created. Welcome to the website!</h1>";
         }
 
-        public function makeUnexpectedErrorPage($e){
+        public function makeErrorPage($e=""){
             $this->title = "Yo, what?";
 
-            // $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1>";
-            $this->content = "echo $e";
+            $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1><br>";
+            $this->content .= $e;
         }
 
         // ------------ Non-Page stuff ------------
@@ -127,9 +125,37 @@ require_once("Router.php");
             return $borderColor;
         }
 
+        protected function getAccountFormFields(AccountBuilder $builder) {
+            $loginRef = $builder->getLoginRef();
+            $s = "";
+    
+            $s .= '<p><label>Username: <input type="text" name="'.$loginRef.'" value="';
+            $s .= self::htmlesc($builder->getData($loginRef));
+            $s .= "\" />";
+            $err = $builder->getErrors($loginRef);
+            if ($err !== null)
+                $s .= ' <span class="error">'.$err.'</span>';
+            $s .="</label></p>\n";
+    
+            $passwordRef = $builder->getpasswordRef();
+            $s .= '<p><label>Password: <input type="text" name="'.$passwordRef.'" value="';
+            $s .= self::htmlesc($builder->getData($passwordRef));
+            $s .= '" ';
+            $s .= '	/>';
+            $err = $builder->getErrors($passwordRef);
+            if ($err !== null)
+                $s .= ' <span class="error">'.$err.'</span>';
+            $s .= '</label></p>'."\n";
+            return $s;
+        }
+
+        public static function htmlesc($str) {
+            return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE| ENT_HTML5, 'UTF-8');
+        }
+
         public function render(){
             if ($this->title === null || $this->content === null) {
-                $this->makeUnexpectedErrorPage();
+                $this->makeErrorPage();
             }
 ?>
 
