@@ -3,7 +3,7 @@
 require_once("model/Account.php");
 require_once("model/AccountStorage.php");
 
-class AccountStorageStub implements AccountStorage {
+class AccountStorageDB implements AccountStorage {
 
     protected $db = "story";
     protected $host = "localhost";
