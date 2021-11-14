@@ -170,12 +170,18 @@ class Router{
         return ".?post=$id&amp;action=modifyPostPage";
     }
 
-    public function updateModifyPost($id) {
-        return ".?post=$id&amp;action=modifyPost";
+    public function updateModifyPost($id, $postUserId) {
+        if($_SESSION['id'] == $postUserId){
+            return ".?post=$id&amp;action=modifyPost";
+        }
+        return ".?action=unauthenticated";
     }
 
-    public function deletePost($id) {
-        return ".?post=$id&amp;action=deletePost";
+    public function deletePost($id, $postUserId) {
+        if($_SESSION['id'] == $postUserId){
+            return ".?post=$id&amp;action=deletePost";
+        }
+        return ".?action=unauthenticated";
     }
 
     public function disconnect(){

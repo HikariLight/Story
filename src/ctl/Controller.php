@@ -56,7 +56,6 @@
         public function galleryPage(){
             if($_SESSION['auth']){
                 $data = $this->postDB->readAll();
-                // $this->authView->makeAboutPage();
                 $this->authView->makeAuthGalleryPage($data);
             }
             else{
@@ -127,7 +126,6 @@
                 $_SESSION['id'] = $userData[0]->User_id;
                 $_SESSION['username'] = $userData[0]->Username;
                 
-                // $this->galleryPage();
                 $this->view->makeWelcomePage();
             }
             else{

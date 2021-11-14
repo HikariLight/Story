@@ -32,11 +32,15 @@ require_once("Router.php");
             <article class='articlePost ".$borderColor."'>
                 <p>".$data[0]->Setup."</p><br>
                 <p>".$data[0]->Punchline."</p>
-
-                <button class='coloredBackgroundButton'><a href='".$this->router->modifyPost($data[0]->Post_id)."'>Modify</a></button>
-                <button class='coloredBackgroundButton'><a href='".$this->router->deletePost($data[0]->Post_id)."'>Delete</a></button>
             </article>
             ";
+
+            if($_SESSION['id'] == $data[0]->User_id){
+                $this->content .= "
+                <button class='coloredBackgroundButton'><a href='".$this->router->modifyPost($data[0]->Post_id, $data[0]->User_id)."'>Modify</a></button>
+                <button class='coloredBackgroundButton'><a href='".$this->router->deletePost($data[0]->Post_id, $data[0]->User_id)."'>Delete</a></button>
+                ";
+            }
         }
 
         public function makeCreatePostPage(PostBuilder $builder){
