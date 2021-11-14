@@ -19,12 +19,13 @@ class Router{
     public function main(){
         session_start();
 
-        $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
-		$_SESSION['feedback'] = '';
-
         // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
-		$_SESSION['auth'] = false; // Should be false
+
+        if($auth == ''){
+            $_SESSION['auth'] = false; // Should be false
+            $auth = false;
+        }
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -105,6 +106,10 @@ class Router{
                 case 'profile':
                     $controller->profilePage();
                     break;
+                
+                case 'disconnect':
+                    $controller->disconnect();
+                    break;
 
                 default : 
                     $view->makeErrorPage("Router default error");
@@ -169,6 +174,10 @@ class Router{
 
     public function deletePostPage($id) {
         return ".?post=$id&amp;action=deletePost";
+    }
+
+    public function disconnect(){
+        return ".?action=disconnect";
     }
 }
 
