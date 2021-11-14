@@ -15,7 +15,7 @@ require_once("Router.php");
             <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='".$this->router->postPage($row->Post_id)."'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
 

@@ -19,12 +19,7 @@ class Router{
     public function main(){
         session_start();
 
-        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
-
-        if($auth == ''){
-            $_SESSION['auth'] = false;
-            $auth = false;
-        }
+        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : 'false';
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -34,21 +29,12 @@ class Router{
         $authView = new AuthView($this);
         $controller = new Controller($view, $authView, $this->postDB, $this->accountDB);
 
-        if ($action === null) {
-            $action = ($postId === null) ? 'home' : 'showPost';
+        if ($action == null) {
+            $action = ($auth == false) ? 'home' : 'gallery';
         }
 
         try {
             switch ($action) {
-
-                case 'showPost': 
-                    if ($postId === null) {
-                        $view->makeErrorPage("Router showPost Error");
-                    } else {
-                        $controller->postPage($postId);
-                    }
-                    break;
-
                 case 'home': 
                     $controller->homePage();
                     break;
@@ -62,8 +48,8 @@ class Router{
                     break; 
 
                 case 'loginPage': 
-                    // $controller->loginPage();
-                    $view->makeLoginPage();
+                    $controller->loginPage();
+                    // $view->makeLoginPage();
                     break;
                 
                 case 'unauthenticated':
@@ -118,6 +104,7 @@ class Router{
             $view->makeErrorPage("Heeeeey".$e);
         }
 
+        // switch ($post)
         if($auth){
             $authView->render();
         }
@@ -165,6 +152,7 @@ class Router{
 
     public function postPage($id) {
         return ".?post=$id";
+        // return ".?action=postPage";
     }
 
     public function modifyPostPage($id) {
