@@ -26,95 +26,101 @@ class AccountStorageDB implements AccountStorage {
         $username = $a->getLogin();
         $password = $a->getPassword();
         $creationDate = $a->getDateCreated();
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
-        $stmt->bindParam(1, $username);
-        $stmt->execute();
-        if (!$stmt->fetchColumn()) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            if ($stmt->fetchColumn()) {
+                throw new Exception('Database Users.create query error');
+            }
             $stmt = $this->pdo->prepare("INSERT INTO `Users` (`Username`, `Password`, `Creation_Date`) VALUES (?, ?, ?)");
             $stmt->bindParam(1, $username);
             $stmt->bindParam(2, $password);
             $stmt->bindParam(3, $creationDate);
-            if($stmt->execute()) {
-                // $stmt->close();
-                return true;
-            }
-            return null;
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.create query error');
         }
-        // $stmt->close();
-        return null;
     }
 
-    public function read($id) {
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Users` WHERE Users.User_id = ?)");
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        if ($stmt->fetchColumn()) {
-            $stmt = $this->pdo->prepare("SELECT `User_id`,`Username`,`Creation_Date` FROM `Users` WHERE Users.User_id = ?");
-            $stmt->bindParam(1, $id);
-            if($stmt->execute()) {
-                // $stmt->close();
-                return $stmt->fetchAll();
+    public function read($username) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ?)");
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            if (!$stmt->fetchColumn()) {
+                throw new Exception('Database Users.read query error');
             }
-            return null;
+            $stmt = $this->pdo->prepare("SELECT `User_id`,`Username`,`Creation_Date` FROM `Users` WHERE Users.Username = ?");
+            $stmt->bindParam(1, $username);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            $stmt->closeCursor();
+            return $res;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.read query error');
         }
-        // $stmt->close();
-        return null;
     }
 
     public function checkAuth($login, $password) {
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
-        $stmt->bindParam(1, $login);
-        $stmt->execute();
-        if($stmt->fetchColumn()) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.Username = ? )");
+            $stmt->bindParam(1, $login);
+            $stmt->execute();
+            if(!$stmt->fetchColumn()) {
+                throw new Exception('Database Users.checkAuth query error');
+            }
             $stmt = $this->pdo->prepare("SELECT `Password` FROM `Users` WHERE Users.Username = ?");
             $stmt->bindParam(1, $login);
             $stmt->execute();
-            if(password_verify($password, $stmt->fetchColumn())) {
-                // $stmt->close();
-                return true;
+            if(!password_verify($password, $stmt->fetchColumn())) {
+                throw new Exception('Specified wrong password');
             }
-            // $stmt->close();
-            return null;
+            $stmt->closeCursor();
+            return true;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.checkAuth query error');
         }
-        // $stmt->close();
-        return null;
     }
 
     public function update($id, Account $a) {
-        $password = $a->getPassword();
-        
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        if ($stmt->fetchColumn()) {
+        try {
+            $password = $a->getPassword();
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            if (!$stmt->fetchColumn()) {
+                throw new Exception('Database USers.update query error');
+            }
             $stmt = $this->pdo->prepare("UPDATE `Users` SET `Password` = ? WHERE Users.User_id = ?");
             $stmt->bindParam(1, $password);
             $stmt->bindParam(2, $id);
-            if($stmt->execute()) {
-                // $stmt->close();
-                return true;
-            }
-            return null;
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.update query error');
         }
-        // $stmt->close();
-        return null;
     }
 
     public function delete($id) {
-        $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
-        $stmt->bindParam(1, $id);
-        $stmt->execute();
-        if ($stmt->fetchColumn()) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `Username` FROM `Users` WHERE Users.User_id = ?)");
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            if (!$stmt->fetchColumn()) {
+                throw new Exception('Database Users.delete query error');
+            }
             $stmt = $this->pdo->prepare("DELETE FROM `Users` WHERE Users.User_id = ?");
             $stmt->bindParam(1, $id);
-            if($stmt->execute()) {
-                // $stmt->close();
-                return true;
-            }
-            return null;
+            $stmt->execute();
+            $stmt->closeCursor();
+            return true;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.delete query error');
         }
-        // $stmt->close();
-        return null;
     }
 
 }
