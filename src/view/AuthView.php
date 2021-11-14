@@ -44,20 +44,15 @@ require_once("Router.php");
             $this->title = "Create a post";
 
             $this->content = "<h1 class='title'>Create a Post</h1>";
-            // $this->content .= '<form action="'.$this->router->saveNewPost().'" method="POST">'."\n";
-            // $this->content .= self::getPostFormFields($builder);
-
             $this->content .= "<form action='".$this->router->saveNewPost()."' method='POST'>"."\n";
-            $this->content .= "<p><label>Setup: <input type='text' name='setup' value='' </label></p>";
-            $this->content .= "<p><label>Punchline: <input type='text' name='punchline' value='' </label></p>";
-            // $this->content .= "<p><label>Type: <input type='text' name='type' value='' </label></p>";
+            $this->content .= self::getPostFormFields($builder);
 
             $this->content .= "
-            <select name='type'>
+            <select name='type' required>
             <option value='Short story'> Short story </option>
             <option value='Short horror Story'> Short Horror Story </option>
             <option value='Joke'> Joke </option>
-            </select><br><br>
+            </select><br>
             ";
 
             $this->content .= "<button class='coloredBackgroundButton'>Post</button>\n";
@@ -69,13 +64,9 @@ require_once("Router.php");
 
             $this->content = "<h1 class='title'>Modify Post</h1>";
             $this->content .= '<form action="'.$this->router->saveNewPost().'" method="POST">'."\n";
-            // $this->content .= self::getPostFormFields($builder);
+            // $this->content .= self::getPostModifFormFields($builder);
             $this->content .= "<p><label>Setup: <input type='text' name='Setup' value=''";
-            $this->content .= "<p><label>Punchline: <input type='text' name='Punchline' value=''";
 
-            $this->content .= "<label><input type='radio' name='Joke' value='Joke'> Joke</label>";
-            $this->content .= "<label><input type='radio' name='Short Story' value='Short Story'> Short Story</label>";
-            $this->content .= "<label><input type='radio' name='Short horror story' value='Short Horror Story'> Short horro story</label><br>";
             $this->content .= "<button class='coloredBackgroundButton'>Submit</button>\n";
             $this->content .= "</form>\n";
         }
@@ -137,7 +128,7 @@ require_once("Router.php");
     
             $s .= '<p><label>Setup: <input type="text" name="'.$setupRef.'" value="';
             $s .= self::htmlesc($builder->getData($setupRef));
-            $s .= "\" />";
+            $s .= "\" required>";
             $err = $builder->getErrors($setupRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';
@@ -147,27 +138,13 @@ require_once("Router.php");
             $s .= '<p><label>Punchline: <input type="text" name="'.$punchlineRef.'" value="';
             $s .= self::htmlesc($builder->getData($punchlineRef));
             $s .= '" ';
-            $s .= '	/>';
+            $s .= '	required>';
             $err = $builder->getErrors($punchlineRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';
             $s .= '</label></p>'."\n";
 
-            $typeRef = $builder->getTypeRef();
-
-            $s .= '<p><label>Type: <input type="text" name="'.$punchlineRef.'" value="';
-            $s .= self::htmlesc($builder->getData($punchlineRef));
-            $s .= '" ';
-            $s .= '	/>';
-            $err = $builder->getErrors($punchlineRef);
-            if ($err !== null)
-                $s .= ' <span class="error">'.$err.'</span>';
-            $s .= '</label></p>'."\n";
             return $s;
-
-            // $this->content .= "<label><input type='radio' name='type' value=''> Joke</label>";
-            // $this->content .= "<label><input type='radio' name='type' value=''> Short Story</label>";
-            // $this->content .= "<label><input type='radio' name='type' value=''> Short horro story</label>";
         }
 
         public function render(){
