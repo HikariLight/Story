@@ -24,7 +24,7 @@ class Router{
 
         // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
-		$_SESSION['auth'] = true; // Should be false
+		$_SESSION['auth'] = false; // Should be false
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
