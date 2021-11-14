@@ -29,8 +29,6 @@ require_once("Router.php");
         public function makeAboutPage(){
             $this->title = "About";
 
-            // $this->style = "body{text-align: center}";
-
             $this->content = "
             <h1 class='title'>Project Idea</h1>
             <p>A platform where users can share short stories or jokes.
@@ -102,13 +100,11 @@ require_once("Router.php");
 
         }
 
-        public function makeErrorPage($errorLocation=""){
-            $this->title = "Yo, what?";
+        public function makeErrorPage($errorLocation="Unknown"){
+            $this->title = "Error";
 
-            // $this->style = "body{text-align: center}";
-
-            $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1><br>";
-            $this->content .= "<p>".$errorLocation."</p>";
+            $this->content = "<h1 class='title'>Error Page.</h1><br>";
+            $this->content .= "<p>Location: ".$errorLocation."</p>";
         }
 
         // ------------ Non-Page stuff ------------
