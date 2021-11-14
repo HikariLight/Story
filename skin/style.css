@@ -91,6 +91,12 @@ button a{
     right: 0;
 }
 
+.secondCornerButton{
+    position: absolute;
+    top: 0;
+    right: 1;
+}
+
 .posts{
     display: grid;
     grid-template-columns: 50% 50%;

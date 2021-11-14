@@ -22,14 +22,16 @@ class Router{
         $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
 		$_SESSION['feedback'] = '';
 
-        $view = new View($this);
-        $authView = new AuthView($this);
-
-        $controller = new Controller($view, $authView, $this->postDB, $this->accountDB);
+        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
+		$_SESSION['auth'] = false; // Should be false
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
         $action = key_exists('action', $_GET) ? $_GET['action'] : null;
+
+        $view = new View($this);
+        $authView = new AuthView($this);
+        $controller = new Controller($view, $authView, $this->postDB, $this->accountDB);
 
         if ($action === null) {
             $action = ($postId === null) ? 'home' : 'showPost';
@@ -40,22 +42,27 @@ class Router{
 
                 case 'showPost': 
                     if ($postId === null) {
-                        $view->makeErrorPage();
+                        $view->makeErrorPage("Router showPost Error");
                     } else {
                         $controller->postPage($postId);
                     }
                     break;
 
                 case 'home': 
-                    $view->makeHomePage();
+                    $controller->homePage();
                     break;
                 
                 case 'gallery':
-                    $controller->galleryPage();
+                    if($auth){
+                        $controller->authGalleryPage();
+                    }
+                    else{
+                        $controller->galleryPage();
+                    }
                     break;
                 
                 case 'about': 
-                    $view->makeAboutPage();
+                    $controller->aboutPage();
                     break; 
 
                 case 'login': 
@@ -84,7 +91,7 @@ class Router{
 
                 case 'modifyPost': 
                     if ($postId == null) {
-                        $view->makeErrorPage();
+                        $view->makeErrorPage("Router modifyPost Error");
                     } else {
                         $controller->modifyPost($postId);
                     }
@@ -92,7 +99,7 @@ class Router{
                 
                 case 'deletePost': 
                     if ($postId == null) {
-                        $view->makeErrorPage();
+                        $view->makeErrorPage("Router deletePost Error");
                     } else {
                         $controller->deletePost($postId);
                     }
@@ -103,7 +110,7 @@ class Router{
                     break;
 
                 default : 
-                    $view->makeErrorPage();
+                    $view->makeErrorPage("Router default error");
                     break;
             }
         } catch (Exception $e) {

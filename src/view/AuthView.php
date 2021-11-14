@@ -5,10 +5,7 @@ require_once("View.php");
 require_once("Router.php");
 
     class AuthView extends View{
-        protected $title;
-        protected $content;
-        protected $style;
-        protected $router;
+
 
         public function __construct(Router $router){
             $this->router = $router;
@@ -22,7 +19,7 @@ require_once("Router.php");
 
             $this->content = "";
 
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+            $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
             $this->content .= "<button class='coloredTextButton'><a href='.?action=myAccount>My Account</a></button>";
 
             $this->content .= "
@@ -136,7 +133,7 @@ require_once("Router.php");
 
         public function render(){
             if ($this->title === null || $this->content === null) {
-                $this->makeErrorPage();
+                $this->makeErrorPage("AuthView Error");
             }
 ?>
 

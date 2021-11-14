@@ -23,7 +23,7 @@ require_once("Router.php");
             <h1 class='title'>Tell a Story.</h1>";
             $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
             $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>New Post</a></button>";
+            // $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>New Post</a></button>";
         }
 
         public function makeAboutPage(){
@@ -84,7 +84,7 @@ require_once("Router.php");
             <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
         }
@@ -105,11 +105,11 @@ require_once("Router.php");
 
         }
 
-        public function makeErrorPage($e=""){
+        public function makeErrorPage($errorLocation=""){
             $this->title = "Yo, what?";
 
             $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1><br>";
-            $this->content .= $e;
+            $this->content .= "<p>".$errorLocation."</p>";
         }
 
         // ------------ Non-Page stuff ------------
@@ -170,7 +170,7 @@ require_once("Router.php");
 
         public function render(){
             if ($this->title === null || $this->content === null) {
-                $this->makeErrorPage();
+                $this->makeErrorPage("View Empty Error");
             }
 ?>
 

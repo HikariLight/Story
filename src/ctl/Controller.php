@@ -23,6 +23,7 @@
         public function __construct(View $view, AuthView $authView, PostStorageDB $postDB, AccountStorageDB $accountDB){
             $this->view = $view;
             $this->authView = $authView;
+
             $this->postDB = $postDB;
             $this->accountDB = $accountDB;
 
@@ -36,6 +37,24 @@
 		    $_SESSION['postBuilder'] = $this->postBuilder;
         }
 
+        public function homePage(){
+            $this->view->makeHomePage();
+        }
+
+        public function aboutPage(){
+            $this->view->makeAboutPage();
+        }
+
+        public function galleryPage(){
+            $data = $this->postDB->readAll();
+            $this->view->makeGalleryPage($data);
+        }
+
+        public function authGalleryPage(){
+            $data = $this->postDB->readAll();
+            $this->authView->makeAuthGalleryPage($data);
+        }
+
         public function postPage($id){
             $post = $this->postDB->read($id);
             if ($post === null) {
@@ -43,11 +62,6 @@
             } else {
                 $this->view->makePostPage($post);
             }
-        }
-
-        public function galleryPage(){
-            $data = $this->postDB->readAll();
-            $this->view->makeGalleryPage($data);
         }
 
         public function newPost(){
@@ -67,7 +81,7 @@
                 $this->postBuilder = null;
                 $this->authView->makePostCreatedPage();
             } else {
-                $this->view->makeErrorPage();
+                $this->view->makeErrorPage("saveNewPost() Error");
             }
         }        
 
@@ -86,7 +100,7 @@
                 $this->AccountBuilder = null;
                 $this->view->makeAccountCreatedPage();
             } else {
-                $this->view->makeErrorPage();
+                $this->view->makeErrorPage("saveNewAccount() Error");
             }
         }
 
