@@ -9,8 +9,6 @@ require_once("Router.php");
         public function makeAuthGalleryPage($data){
             $this->title = "Gallery";
 
-            $this->style = "body{text-align: center;}";
-
             $this->content = "";
 
             // $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
@@ -19,7 +17,7 @@ require_once("Router.php");
             <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
 

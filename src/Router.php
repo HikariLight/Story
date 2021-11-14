@@ -24,7 +24,7 @@ class Router{
 
         // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
-		$_SESSION['auth'] = true; // Should be false
+		$_SESSION['auth'] = false; // Should be false
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -61,7 +61,8 @@ class Router{
                     $controller->aboutPage();
                     break; 
 
-                case 'login': 
+                case 'loginPage': 
+                    // $controller->loginPage();
                     $view->makeLoginPage();
                     break;
                 
@@ -75,7 +76,11 @@ class Router{
                 
                 case 'saveNewAccount':
                     $controller->saveNewAccount($_POST);
-                    break; 
+                    break;
+                
+                case 'login': 
+                    $controller->login($_POST);
+                    break;
                 
                 case 'newPost':
                     $controller->newPost();
@@ -136,6 +141,10 @@ class Router{
 
     public function saveNewAccount(){
         return ".?action=saveNewAccount";
+    }
+
+    public function login(){
+        return ".?action=login";
     }
 
     public function newPost(){

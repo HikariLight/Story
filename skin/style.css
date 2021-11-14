@@ -3,6 +3,7 @@ body{
     min-height: 100vh; 
     background-color: #E5E5E5;
     font-family: Helvetica, Arial, Verdana;
+    text-align: center;
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
@@ -12,7 +13,6 @@ header{
 }
 
 nav{
-    text-align: center;
     margin: 1em;
 }
 
@@ -37,7 +37,6 @@ main{
 }
 
 .title{
-    text-align: center;
     color: #AC1933;
 }
 
@@ -74,27 +73,23 @@ button a{
 
 .readMoreButton{
     position:absolute;
-    margin: 0;
-    padding: 0;
+    margin: 0 0 0 5px;
+    padding: 1em;
+    border: none;
     bottom:0;
     right:0;
     background-color: #AC1933;
+    height: 100%;
 }
 
 .readMoreButton a{
     color: white;
 }
 
-.firstCornerButton{
+.cornerButtons{
     position: absolute;
     top: 0;
     right: 0;
-}
-
-.secondCornerButton{
-    position: absolute;
-    top: 0;
-    right: 1;
 }
 
 .posts{
@@ -103,7 +98,9 @@ button a{
   }
 
 .post{
+    position: relative;
     background-color: #FFFFFF;
+    text-align: left;
     margin: 1em;
     padding: 1em;
 }
@@ -120,10 +117,6 @@ button a{
     border: 1px solid #AC1933;
 }
 
-form{
-    text-align: center;
-}
-
 input{
     display: block;
     padding: 1em;
@@ -137,7 +130,6 @@ select {
   }
 
 footer{
-    text-align: center;
     min-height:50px; 
 }
 
