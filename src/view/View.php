@@ -65,8 +65,8 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Login</h1>";
             $this->content .= "<form action='".$this->router->login()."' method='POST'>";
             $this->content .= "Username: <input type='text' name='username'>";
-            $this->content .= "Password: <input type='password' name='password'>";
-            $this->content .= "<input class='coloredBackgroundButton' type='submit' name='submit' value='Submit'>";
+            $this->content .= "Password: <input type='password' name='password'>"."<br>";
+            $this->content .= "<button class='coloredBackgroundButton'>Submit</button>";
             $this->content .= "</form>";
         }
 

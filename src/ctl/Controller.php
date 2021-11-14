@@ -49,6 +49,10 @@
             $this->view->makeAboutPage();
         }
 
+        public function loginPage(){
+            $this->view->makeLoginPage();
+        }
+
         public function galleryPage(){
             if($_SESSION['auth']){
                 $data = $this->postDB->readAll();
