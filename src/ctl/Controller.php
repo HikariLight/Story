@@ -42,11 +42,18 @@
         }
 
         public function aboutPage(){
+            if($_SESSION['auth']){
+                $this->authView->makeAboutPage();
+            }
             $this->view->makeAboutPage();
         }
 
         public function galleryPage(){
             $data = $this->postDB->readAll();
+            
+            if($_SESSION['auth']){
+                $this->authView->makeAuthGalleryPage($data);
+            }
             $this->view->makeGalleryPage($data);
         }
 
@@ -64,6 +71,10 @@
             }
         }
 
+        public function profilePage(){
+            $this->authView->makeProfilePage();
+        }
+
         public function newPost(){
             if ($this->postBuilder === null) {
                 $this->postBuilder = new PostBuilder();
@@ -74,7 +85,6 @@
         public function saveNewPost(array $data){
             $this->postBuilder = new PostBuilder($data);
 
-            echo "The other how you doing";
             if ($this->postBuilder->isValid()) {
                 $post = $this->postBuilder->createPost();
                 $postId = $this->postDB->create($post);

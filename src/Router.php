@@ -54,12 +54,13 @@ class Router{
                     break;
                 
                 case 'gallery':
-                    if($auth){
-                        $controller->authGalleryPage();
-                    }
-                    else{
-                        $controller->galleryPage();
-                    }
+                    // if($auth){
+                    //     $controller->authGalleryPage();
+                    // }
+                    // else{
+                    //     $controller->galleryPage();
+                    // }
+                    $controller->galleryPage();
                     break;
                 
                 case 'about': 
@@ -106,8 +107,9 @@ class Router{
                     }
                     break;
                 
-                case 'myAccount':
-                    $this->authView->createProfilePage();
+                case 'profile':
+                    // $this->authView->createProfilePage();
+                    $controller->profilePage();
                     break;
 
                 default : 
@@ -153,6 +155,10 @@ class Router{
 
     public function saveNewPost(){
         return ".?action=saveNewPost";
+    }
+
+    public function profilePage(){
+        return ".?action=profile";
     }
 
     public function postPage($id) {

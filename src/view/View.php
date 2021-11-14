@@ -77,8 +77,8 @@ require_once("Router.php");
 
             $this->content = "";
 
-            $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
+            // $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
+            // $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
 
             $this->content .= "
             <div class='posts'>";
@@ -87,6 +87,9 @@ require_once("Router.php");
                 $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
+
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
         }
 
         public function makeAccountCreatedPage(){

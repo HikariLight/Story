@@ -5,14 +5,16 @@ require_once("View.php");
 require_once("Router.php");
 
     class AuthView extends View{
+
         public function makeAuthGalleryPage($data){
             $this->title = "Gallery";
 
+            $this->style = "body{text-align: center;}";
+
             $this->content = "";
 
-            $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=myAccount>My Account</a></button>";
-
+            // $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+            
             $this->content .= "
             <div class='posts'>";
             foreach($data as $row){
@@ -20,6 +22,9 @@ require_once("Router.php");
                 $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
             }
             $this->content .= "</div>";
+
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+
         }
 
         public function makePostPage($data){
@@ -69,20 +74,31 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>The post was successfully deleted.</h1>";
         }
 
-        public function makeProfile($data){
+        // REMEMBER: Put back $data as a parameter
+        public function makeProfilePage(){
             $this->title = "My Profile";
 
             $this->content = "";
 
-            $this->content .= "<div class='posts'>";
-            foreach($data as $row){
-                $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
-            }
-            $this->content .= "</div>";
+            // $this->content .= "<div class='posts'>";
+            // foreach($data as $row){
+            //     $borderColor = $this->getBorderColor($row);
+            //     $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+            // }
+            // $this->content .= "</div>";
+
+            $this->content .= "<button class='coloredBackgroundColor'><a href=''>Log Out</a></button>";
         }
 
         // ------------ Non-Page stuff ------------
+
+        protected function getMenu() {
+            return array(
+                "Profile" => $this->router->profilePage(),
+                "Browse Posts" => $this->router->galleryPage(),
+                "About" => $this->router->aboutPage(),
+            );
+        }
 
         public function getPostTitle($setup){
             $pieces = explode(" ", $setup);
