@@ -19,11 +19,10 @@ class Router{
     public function main(){
         session_start();
 
-        // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
 
         if($auth == ''){
-            $_SESSION['auth'] = false; // Should be false
+            $_SESSION['auth'] = false;
             $auth = false;
         }
 
@@ -116,7 +115,7 @@ class Router{
                     break;
             }
         } catch (Exception $e) {
-            $view->makeErrorPage($e);
+            $view->makeErrorPage("Heeeeey".$e);
         }
 
         if($auth){
