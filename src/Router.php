@@ -24,7 +24,7 @@ class Router{
 
         // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
-		$_SESSION['auth'] = false; // Should be false
+		$_SESSION['auth'] = true; // Should be false
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -54,12 +54,6 @@ class Router{
                     break;
                 
                 case 'gallery':
-                    // if($auth){
-                    //     $controller->authGalleryPage();
-                    // }
-                    // else{
-                    //     $controller->galleryPage();
-                    // }
                     $controller->galleryPage();
                     break;
                 
@@ -80,7 +74,7 @@ class Router{
                     break;
                 
                 case 'saveNewAccount':
-                    $accountID = $controller->saveNewAccount($_POST);
+                    $controller->saveNewAccount($_POST);
                     break; 
                 
                 case 'newPost':
@@ -88,15 +82,11 @@ class Router{
                     break;
                     
                 case 'saveNewPost':
-                    $postID = $controller->saveNewPost($_POST);
+                    $controller->saveNewPost($_POST);
                     break;    
 
                 case 'modifyPost': 
-                    if ($postId == null) {
-                        $view->makeErrorPage("Router modifyPost Error");
-                    } else {
-                        $controller->modifyPost($postId);
-                    }
+                    $controller->modifyPost($postId);
                     break;
                 
                 case 'deletePost': 
@@ -108,7 +98,6 @@ class Router{
                     break;
                 
                 case 'profile':
-                    // $this->authView->createProfilePage();
                     $controller->profilePage();
                     break;
 

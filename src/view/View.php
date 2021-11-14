@@ -111,6 +111,8 @@ require_once("Router.php");
         public function makeErrorPage($errorLocation=""){
             $this->title = "Yo, what?";
 
+            $this->style = "body{text-align: center}";
+
             $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1><br>";
             $this->content .= "<p>".$errorLocation."</p>";
         }

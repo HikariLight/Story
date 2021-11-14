@@ -93,7 +93,7 @@
             } else {
                 $this->view->makeErrorPage("saveNewPost() Error");
             }
-        }        
+        }
 
         public function newAccount(){
             if ($this->accountBuilder === null) {

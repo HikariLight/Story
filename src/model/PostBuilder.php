@@ -74,7 +74,7 @@ class PostBuilder {
 		if (!key_exists("setup", $this->data) || !key_exists("punchline", $this->data) || !key_exists("type", $this->data)) {
             throw new Exception("Missing fields for post creation");
         }
-		return new Post($this->data["setup"], $this->data["punchline"], $this->data["type"]);
+		return new Post($this->data["setup"], $this->data["punchline"], $this->data["type"], 1);
 	}
 
 	public function updatePost(Post $post) {
