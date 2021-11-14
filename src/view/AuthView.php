@@ -5,15 +5,6 @@ require_once("View.php");
 require_once("Router.php");
 
     class AuthView extends View{
-
-
-        public function __construct(Router $router){
-            $this->router = $router;
-            $this->style = "";
-            $this->title = null;
-            $this->content = null;
-        }
-
         public function makeAuthGalleryPage($data){
             $this->title = "Gallery";
 
@@ -92,13 +83,6 @@ require_once("Router.php");
         }
 
         // ------------ Non-Page stuff ------------
-        protected function getMenu() {
-            return array(
-                "Home" => $this->router->homePage(),
-                "Browse Posts" => $this->router->allUsersPostPage(),
-                "About" => $this->router->aboutPage(),
-            );
-        }
 
         public function getPostTitle($setup){
             $pieces = explode(" ", $setup);

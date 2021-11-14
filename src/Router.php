@@ -22,6 +22,7 @@ class Router{
         $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
 		$_SESSION['feedback'] = '';
 
+        // For authentication
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
 		$_SESSION['auth'] = false; // Should be false
 
@@ -117,7 +118,12 @@ class Router{
             $view->makeErrorPage($e);
         }
 
-        $view->render();
+        if($auth){
+            $authView->render();
+        }
+        else{
+            $view->render();
+        }
     }
 
     // URL Methods
