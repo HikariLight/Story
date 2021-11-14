@@ -21,6 +21,7 @@
         protected $accountBuilder;
 
         public function __construct(View $view, AuthView $authView, PostStorageDB $postDB, AccountStorageDB $accountDB){
+            // session_start();
             $this->view = $view;
             $this->authView = $authView;
 
@@ -49,17 +50,15 @@
         }
 
         public function galleryPage(){
-            $data = $this->postDB->readAll();
-            
             if($_SESSION['auth']){
+                $data = $this->postDB->readAll();
+                // $this->authView->makeAboutPage();
                 $this->authView->makeAuthGalleryPage($data);
             }
-            $this->view->makeGalleryPage($data);
-        }
-
-        public function authGalleryPage(){
-            $data = $this->postDB->readAll();
-            $this->authView->makeAuthGalleryPage($data);
+            else{
+                $data = $this->postDB->readAll();
+                $this->view->makeGalleryPage($data);
+            }
         }
 
         public function postPage($id){
@@ -135,6 +134,10 @@
 
         public function deletePost($id){
             $this->postDB->delete($id);
+        }
+
+        public function disconnect(){
+            $_SESSION['auth'] = false;
         }
     }
 ?>

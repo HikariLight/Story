@@ -77,12 +77,6 @@ require_once("Router.php");
 
             $this->content = "";
 
-            // $this->content .= "<div class='cornerButtons'>
-            // <button class='cornerButtons coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>
-            // <button class='coloredTextButton'><a href='.?action=login'>Login</a></button>
-            // </div>
-            // ";
-
             $this->content .= "
             <div class='posts'>";
             foreach($data as $row){
@@ -90,9 +84,6 @@ require_once("Router.php");
                 $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
-
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
         }
 
         public function makeAccountCreatedPage(){
@@ -152,19 +143,14 @@ require_once("Router.php");
             $loginRef = $builder->getLoginRef();
             $s = "";
     
-            $s .= '<p><label>Username: <input type="text" name="'.$loginRef.'" value="';
-            $s .= self::htmlesc($builder->getData($loginRef));
-            $s .= "\" />";
+            $s .= '<p><label>Username: <input type="text" name="'.$loginRef.'" value="" required>';
             $err = $builder->getErrors($loginRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';
             $s .="</label></p>\n";
     
             $passwordRef = $builder->getpasswordRef();
-            $s .= '<p><label>Password: <input type="password" name="'.$passwordRef.'" value="';
-            $s .= self::htmlesc($builder->getData($passwordRef));
-            $s .= '" ';
-            $s .= '	/>';
+            $s .= '<p><label>Password: <input type="password" name="'.$passwordRef.'" value="" required>';
             $err = $builder->getErrors($passwordRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';

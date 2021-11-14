@@ -10,8 +10,6 @@ require_once("Router.php");
             $this->title = "Gallery";
 
             $this->content = "";
-
-            // $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
             
             $this->content .= "
             <div class='posts'>";
@@ -21,7 +19,7 @@ require_once("Router.php");
             }
             $this->content .= "</div>";
 
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+            $this->content .= "<button class='cornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
 
         }
 
@@ -100,7 +98,7 @@ require_once("Router.php");
             // }
             // $this->content .= "</div>";
 
-            $this->content .= "<button class='coloredBackgroundColor'><a href=''>Log Out</a></button>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='".$this->router->disconnect()."'>Log Out</a></button>";
         }
 
         // ------------ Non-Page stuff ------------
@@ -124,19 +122,14 @@ require_once("Router.php");
             $setupRef = $builder->getSetupRef();
             $s = "";
     
-            $s .= '<p><label>Setup: <input type="text" name="'.$setupRef.'" value="';
-            $s .= self::htmlesc($builder->getData($setupRef));
-            $s .= "\" required>";
+            $s .= '<p><label>Setup: <input type="text" name="'.$setupRef.'" value="" required>';
             $err = $builder->getErrors($setupRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';
             $s .="</label></p>\n";
     
             $punchlineRef = $builder->getPunchlineRef();
-            $s .= '<p><label>Punchline: <input type="text" name="'.$punchlineRef.'" value="';
-            $s .= self::htmlesc($builder->getData($punchlineRef));
-            $s .= '" ';
-            $s .= '	required>';
+            $s .= '<p><label>Punchline: <input type="text" name="'.$punchlineRef.'" value="" required>';
             $err = $builder->getErrors($punchlineRef);
             if ($err !== null)
                 $s .= ' <span class="error">'.$err.'</span>';
