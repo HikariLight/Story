@@ -17,6 +17,23 @@ require_once("Router.php");
             $this->content = null;
         }
 
+        public function makeAuthGalleryPage($data){
+            $this->title = "Gallery";
+
+            $this->content = "";
+
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=myAccount>My Account</a></button>";
+
+            $this->content .= "
+            <div class='posts'>";
+            foreach($data as $row){
+                $borderColor = $this->getBorderColor($row);
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+            }
+            $this->content .= "</div>";
+        }
+
         public function makePostPage($data){
             $this->title = getPostTitle($data->Setup);
 

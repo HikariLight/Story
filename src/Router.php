@@ -61,6 +61,10 @@ class Router{
                 case 'login': 
                     $view->makeLoginPage();
                     break;
+                
+                case 'unauthenticated':
+                    $view->makeUnauthenticatedPage();
+                    break;
 
                 case 'newAccount':
                     $controller->newAccount();
@@ -80,7 +84,7 @@ class Router{
 
                 case 'modifyPost': 
                     if ($postId == null) {
-                        $view->makeUnknownActionPage();
+                        $view->makeErrorPage();
                     } else {
                         $controller->modifyPost($postId);
                     }
@@ -88,10 +92,14 @@ class Router{
                 
                 case 'deletePost': 
                     if ($postId == null) {
-                        $view->makeUnknownActionPage();
+                        $view->makeErrorPage();
                     } else {
                         $controller->deletePost($postId);
                     }
+                    break;
+                
+                case 'myAccount':
+                    $this->authView->createProfilePage();
                     break;
 
                 default : 

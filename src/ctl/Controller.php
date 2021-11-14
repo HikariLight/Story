@@ -8,7 +8,7 @@
 
     require_once("model/PostStorageDB.php");
     require_once("model/AccountStorageDB.php");
-    
+
     require_once("view/View.php");
     require_once("view/AuthView.php");
 
@@ -90,9 +90,12 @@
             }
         }
 
-        public function deletePost($id){}
+        public function modifyPost($id){
+            $this->postDB->update($id);
+        }
 
-        public function modifyPost($id){}
-
+        public function deletePost($id){
+            $this->postDB->delete($id);
+        }
     }
 ?>

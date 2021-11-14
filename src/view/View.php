@@ -77,10 +77,14 @@ require_once("Router.php");
 
             $this->content = "";
 
-            $this->content .= "<div class='posts'>";
+            $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
+
+            $this->content .= "
+            <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
         }
@@ -89,6 +93,16 @@ require_once("Router.php");
             $this->title = "Welcome!";
 
             $this->content = "<h1 class='title'>Account Created. Welcome to the website!</h1>";
+        }
+
+        public function makeUnauthenticatedPage(){
+            $this->title = "Unauthenticated";
+
+            $this->content = "<h1 class='title'>Unauthenticated.</h1>";
+            $this->content .= "<p>Only authenticated people may read the punchline of the stories. Please sign up or login to see the rest.</p>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=login'>Login</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=newAccount'>Sign Up</a></button>";
+
         }
 
         public function makeErrorPage($e=""){
