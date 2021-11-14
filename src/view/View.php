@@ -22,14 +22,14 @@ require_once("Router.php");
             $this->content = "
             <h1 class='title'>Tell a Story.</h1>";
             $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=loginPage'>Login</a></button>";
             // $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>New Post</a></button>";
         }
 
         public function makeAboutPage(){
             $this->title = "About";
 
-            $this->style = "body{text-align: center}";
+            // $this->style = "body{text-align: center}";
 
             $this->content = "
             <h1 class='title'>Project Idea</h1>
@@ -65,9 +65,9 @@ require_once("Router.php");
             $this->title = "Login";
 
             $this->content = "<h1 class='title'>Login</h1>";
-            $this->content .= "<form>";
-            $this->content .= "Username: <input type='text'>";
-            $this->content .= "Password: <input type='password'>";
+            $this->content .= "<form action='".$this->router->login()."' method='POST'>";
+            $this->content .= "Username: <input type='text' name='username'>";
+            $this->content .= "Password: <input type='password' name='password'>";
             $this->content .= "<input class='coloredBackgroundButton' type='submit' name='submit' value='Submit'>";
             $this->content .= "</form>";
         }
@@ -77,14 +77,17 @@ require_once("Router.php");
 
             $this->content = "";
 
-            // $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
-            // $this->content .= "<button class='coloredTextButton'><a href='.?action=login'>Login</a></button>";
+            // $this->content .= "<div class='cornerButtons'>
+            // <button class='cornerButtons coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>
+            // <button class='coloredTextButton'><a href='.?action=login'>Login</a></button>
+            // </div>
+            // ";
 
             $this->content .= "
             <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button><a href='.?action=unauthenticated'>Read more</a></button></div>";
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
             }
             $this->content .= "</div>";
 
@@ -111,7 +114,7 @@ require_once("Router.php");
         public function makeErrorPage($errorLocation=""){
             $this->title = "Yo, what?";
 
-            $this->style = "body{text-align: center}";
+            // $this->style = "body{text-align: center}";
 
             $this->content = "<h1 class='title'>Stuff went down bruv, Idk what to tell you.</h1><br>";
             $this->content .= "<p>".$errorLocation."</p>";

@@ -114,6 +114,21 @@
             }
         }
 
+        public function login(array $data){
+            if($this->accountDB->checkauth($data["username"], $data["password"])) {
+                $userData = $this->accountDB->read($data["username"]);
+                
+                $_SESSION['auth'] = true;
+                $_SESSION['id'] = $userData[0]->User_id;
+                $_SESSION['username'] = $userData[0]->Username;
+                
+                $this->galleryPage();
+            }
+            else{
+                $this->view->makeErrorPage();
+            }
+        }
+
         public function modifyPost($id){
             $this->postDB->update($id);
         }
