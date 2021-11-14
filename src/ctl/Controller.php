@@ -66,10 +66,7 @@
         }
 
         public function postPage($id){
-            // echo "<script>console.log(".json_encode(gettype($id)).")</script>";
-            // echo "<script>console.log(".json_encode("Heeeeeeeey").")</script>";
             $post = $this->postDB->read(intval($id));
-            echo "<script>console.log(".json_encode($post).")</script>";
 
             if ($post === null) {
                 $this->authView->makeErrorPage("Controller postPage()");
@@ -79,7 +76,8 @@
         }
 
         public function profilePage(){
-            $this->authView->makeProfilePage();
+            $data = $this->postDB->readUser($_SESSION['username']);
+            $this->authView->makeProfilePage($data);
         }
 
         public function newPost(){
@@ -129,23 +127,40 @@
                 $_SESSION['id'] = $userData[0]->User_id;
                 $_SESSION['username'] = $userData[0]->Username;
                 
-                $this->galleryPage();
+                // $this->galleryPage();
+                $this->view->makeWelcomePage();
             }
             else{
                 $this->view->makeErrorPage();
             }
         }
 
-        public function modifyPost($id){
-            $this->postDB->update($id);
-        }
+        public function modifyPostPage($id){
+            if ($this->postBuilder === null) {
+                $this->postBuilder = new PostBuilder();
+            }
+
+            $arrayPost = $this->postDB->read(intval($id));
+            $p = new Post($arrayPost[0]->Setup, $arrayPost[0]->Punchline, $arrayPost[0]->Type, $arrayPost[0]->Post_id);
+            $builder = $this->postBuilder->buildFromPost($p);
+
+            $this->authView->makeModifyPostPage($p);
+            }
+            
+        public function updateModifyPost($postId, $data) {
+            $p = new Post($data['Setup'], $data['Punchline'], $data['type'], $postId);
+            $this->postDB->update($postId, $p);
+            $this->postPage($postId);
+            }
 
         public function deletePost($id){
             $this->postDB->delete($id);
+            $this->authView->makePostDeletedPage();
         }
 
         public function disconnect(){
             $_SESSION['auth'] = false;
+            $this->authView->makeDisconnectedPage();
         }
     }
 ?>

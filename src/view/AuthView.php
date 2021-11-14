@@ -58,17 +58,24 @@ require_once("Router.php");
             $this->content .= "</form>\n";
         }
 
-        public function makeModifyPostPage($row){
+        public function makeModifyPostPage($post){
             $this->title = "Modify Post";
-
+            
             $this->content = "<h1 class='title'>Modify Post</h1>";
-            $this->content .= '<form action="'.$this->router->saveNewPost().'" method="POST">'."\n";
-            // $this->content .= self::getPostModifFormFields($builder);
-            $this->content .= "<p><label>Setup: <input type='text' name='Setup' value=''";
-
+            $this->content .= '<form action="'.$this->router->updateModifyPost($post->getUserId()).'" method="POST">'."\n";
+            $this->content .= "<p><label>Setup: <input type='text' name='Setup' value='".$post->getSetup()."'</p></label>";
+            $this->content .= "<p><label>Punchline: <input type='text' name='Punchline' value='".$post->getPunchline()."'</p></label>";
+            
+            $this->content .= "
+            <select name='type' required>
+            <option value='Short story'> Short story </option>
+            <option value='Short horror Story'> Short Horror Story </option>
+            <option value='Joke'> Joke </option>
+            </select><br>
+            ";
             $this->content .= "<button class='coloredBackgroundButton'>Submit</button>\n";
             $this->content .= "</form>\n";
-        }
+            }
 
         public function makePostCreatedPage(){
             $this->title = "Post Created";
@@ -88,20 +95,25 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>The post was successfully deleted.</h1>";
         }
 
-        // REMEMBER: Put back $data as a parameter
-        public function makeProfilePage(){
+        public function makeProfilePage($data){
             $this->title = "My Profile";
 
             $this->content = "";
 
-            // $this->content .= "<div class='posts'>";
-            // foreach($data as $row){
-            //     $borderColor = $this->getBorderColor($row);
-            //     $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
-            // }
-            // $this->content .= "</div>";
+            $this->content .= "<div class='posts'>";
+            foreach($data as $row){
+                $borderColor = $this->getBorderColor($row);
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='".$this->router->postPage($row->Post_id)."'>Read more</a></button></div>";
+            }
+            $this->content .= "</div>";
 
             $this->content .= "<button class='coloredBackgroundButton'><a href='".$this->router->disconnect()."'>Log Out</a></button>";
+        }
+
+        public function makeDisconnectedPage(){
+            $this->title = "My Profile";
+
+            $this->content = "<h1 class='title'>Goodbye!</h1>";
         }
 
         // ------------ Non-Page stuff ------------
