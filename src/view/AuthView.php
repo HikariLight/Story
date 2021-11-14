@@ -5,10 +5,7 @@ require_once("View.php");
 require_once("Router.php");
 
     class AuthView extends View{
-        protected $title;
-        protected $content;
-        protected $style;
-        protected $router;
+
 
         public function __construct(Router $router){
             $this->router = $router;
@@ -17,18 +14,44 @@ require_once("Router.php");
             $this->content = null;
         }
 
-        public function makePostPage(Post $post){
-            $this->title = getPostTitle($post);
+        public function makeAuthGalleryPage($data){
+            $this->title = "Gallery";
 
-            $className = $this->getBorderColor($post);
+            $this->content = "";
+
+            $this->content .= "<button class='firstCornerButton coloredBackgroundButton'><a href='.?action=newPost'>Post</a></button>";
+            $this->content .= "<button class='coloredTextButton'><a href='.?action=myAccount>My Account</a></button>";
+
+            $this->content .= "
+            <div class='posts'>";
+            foreach($data as $row){
+                $borderColor = $this->getBorderColor($row);
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+            }
+            $this->content .= "</div>";
+        }
+
+        public function makePostPage($data){
+            $this->title = getPostTitle($data->Setup);
+
+            $borderColor = $this->getBorderColor($row);
 
             $this->content = "
-            <article class=$className>
-                <p>$post->getTitle();</p>
-                <br>
-                <p>$post->getBody();</p>
+            <article class='$borderColor'>
+                <p>$data->Setup;</p><br>
+                <p>$data->Punchline;</p>
             </article>
             ";
+        }
+
+        public function makeCreatePostPage(PostBuilder $builder){
+            $this->title = "Create a post";
+
+            $this->content = "<h1 class='title'>Create a Post</h1>";
+            $this->content .= '<form action="'.$this->router->saveNewPost().'" method="POST">'."\n";
+            $this->content .= self::getPostFormFields($builder);
+            $this->content .= "<button class='coloredBackgroundButton'>Post</button>\n";
+            $this->content .= "</form>\n";
         }
 
         public function makeModifyPostPage(){
@@ -37,16 +60,35 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Work in progress</h1>";
         }
 
-        public function makeDeletePostPage(){
-            $this->title = "Delete";
+        public function makePostCreatedPage(){
+            $this->title = "Post Created";
 
-            $this->content = "<h1 class='title'>Work in progress</h1>";
+            $this->content = "<h1 class='title'>The post was successfully created.</h1>";       
         }
 
-        public function makeProfile(){
-            $this->title = "My Posts";
+        public function makePosModifiedPage(){
+            $this->title = "Post modified";
 
-            $this->content = "<h1 class='title'>Work in progress</h1>";
+            $this->content = "<h1 class='title'>The post was successfully modified.</h1>";       
+        }
+
+        public function makePostDeletedPage(){
+            $this->title = "Post deleted";
+
+            $this->content = "<h1 class='title'>The post was successfully deleted.</h1>";
+        }
+
+        public function makeProfile($data){
+            $this->title = "My Profile";
+
+            $this->content = "";
+
+            $this->content .= "<div class='posts'>";
+            foreach($data as $row){
+                $borderColor = $this->getBorderColor($row);
+                $this->content .= "<div class='post $borderColor'>".$row->Setup."...</div>";
+            }
+            $this->content .= "</div>";
         }
 
         // ------------ Non-Page stuff ------------
@@ -58,9 +100,40 @@ require_once("Router.php");
             );
         }
 
+        public function getPostTitle($setup){
+            $pieces = explode(" ", $setup);
+            $postTitle = implode(" ", array_splice($pieces, 0, 3));
+
+            return $postTitle . "...";
+        }
+
+        protected function getPostFormFields(PostBuilder $builder) {
+            $setupRef = $builder->getSetupRef();
+            $s = "";
+    
+            $s .= '<p><label>Setup: <input type="text" name="'.$setupRef.'" value="';
+            $s .= self::htmlesc($builder->getData($setupRef));
+            $s .= "\" />";
+            $err = $builder->getErrors($setupRef);
+            if ($err !== null)
+                $s .= ' <span class="error">'.$err.'</span>';
+            $s .="</label></p>\n";
+    
+            $punchlineRef = $builder->getPunchlineRef();
+            $s .= '<p><label>Punchline: <input type="text" name="'.$punchlineRef.'" value="';
+            $s .= self::htmlesc($builder->getData($punchlineRef));
+            $s .= '" ';
+            $s .= '	/>';
+            $err = $builder->getErrors($punchlineRef);
+            if ($err !== null)
+                $s .= ' <span class="error">'.$err.'</span>';
+            $s .= '</label></p>'."\n";
+            return $s;
+        }
+
         public function render(){
             if ($this->title === null || $this->content === null) {
-                $this->makeUnexpectedErrorPage();
+                $this->makeErrorPage("AuthView Error");
             }
 ?>
 

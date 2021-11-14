@@ -22,12 +22,16 @@ class Router{
         $feedback = key_exists('feedback', $_SESSION) ? $_SESSION['feedback'] : '';
 		$_SESSION['feedback'] = '';
 
-        $view = new View($this);
-        $controller = new Controller($view, $this->postDB, $this->accountDB);
+        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : '';
+		$_SESSION['auth'] = false; // Should be false
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
         $action = key_exists('action', $_GET) ? $_GET['action'] : null;
+
+        $view = new View($this);
+        $authView = new AuthView($this);
+        $controller = new Controller($view, $authView, $this->postDB, $this->accountDB);
 
         if ($action === null) {
             $action = ($postId === null) ? 'home' : 'showPost';
@@ -35,64 +39,78 @@ class Router{
 
         try {
             switch ($action) {
+
                 case 'showPost': 
                     if ($postId === null) {
-                        $view->makeErrorPage();
+                        $view->makeErrorPage("Router showPost Error");
                     } else {
                         $controller->postPage($postId);
                     }
                     break;
 
                 case 'home': 
-                    $view->makeHomePage();
+                    $controller->homePage();
                     break;
                 
                 case 'gallery':
-                    $controller->galleryPage();
+                    if($auth){
+                        $controller->authGalleryPage();
+                    }
+                    else{
+                        $controller->galleryPage();
+                    }
                     break;
                 
                 case 'about': 
-                    $view->makeAboutPage();
+                    $controller->aboutPage();
                     break; 
-
-                case 'createPost':
-                    $controller->createPost($_POST);
-                    break;
-
-                case 'createAccount':
-                    $controller->newAccount();
-                    break;
-                
-                case 'saveAccount':
-                    $accountID = $controller->createAccount($_POST);
-                    break;     
-                
-                case 'deletePost': 
-                    if ($postId == null) {
-                        $view->makeUnknownActionPage();
-                    } else {
-                        $controller->deletePost($postId);
-                    }
-                    break;
-
-                case 'modifyPost': 
-                    if ($postId == null) {
-                        $view->makeUnknownActionPage();
-                    } else {
-                        $controller->modifyPost($postId);
-                    }
-                    break;
 
                 case 'login': 
                     $view->makeLoginPage();
                     break;
                 
-                case 'signup':
-                    $view->makeSignUpPage();
+                case 'unauthenticated':
+                    $view->makeUnauthenticatedPage();
+                    break;
+
+                case 'newAccount':
+                    $controller->newAccount();
+                    break;
+                
+                case 'saveNewAccount':
+                    $accountID = $controller->saveNewAccount($_POST);
+                    break; 
+                
+                case 'newPost':
+                    $controller->newPost();
+                    break;
+                    
+                case 'saveNewPost':
+                    $postID = $controller->saveNewPost($_POST);
+                    break;    
+
+                case 'modifyPost': 
+                    if ($postId == null) {
+                        $view->makeErrorPage("Router modifyPost Error");
+                    } else {
+                        $controller->modifyPost($postId);
+                    }
+                    break;
+                
+                case 'deletePost': 
+                    if ($postId == null) {
+                        $view->makeErrorPage("Router deletePost Error");
+                    } else {
+                        $controller->deletePost($postId);
+                    }
+                    break;
+                
+                case 'myAccount':
+                    $this->authView->createProfilePage();
                     break;
 
                 default : 
-                    $view->makeErrorPage();
+                    $view->makeErrorPage("Router default error");
                     break;
             }
         } catch (Exception $e) {
@@ -115,20 +133,24 @@ class Router{
         return ".?action=gallery";
     }
 
-    public function postPage($id) {
-        return ".?post=$id";
-    }
-
-    public function createPostPage() {
-        return ".?action=createPost";
-    }
-
-    public function createNewAccount(){
-        return ".?action=createAccount";
+    public function newAccount(){
+        return ".?action=newAccount";
     }
 
     public function saveNewAccount(){
-        return ".?action=saveAccount";
+        return ".?action=saveNewAccount";
+    }
+
+    public function newPost(){
+        return ".?action=newPost";
+    }
+
+    public function saveNewPost(){
+        return ".?action=saveNewPost";
+    }
+
+    public function postPage($id) {
+        return ".?post=$id";
     }
 
     public function modifyPostPage($id) {
