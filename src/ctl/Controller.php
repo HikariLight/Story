@@ -66,11 +66,15 @@
         }
 
         public function postPage($id){
-            $post = $this->postDB->read($id);
+            // echo "<script>console.log(".json_encode(gettype($id)).")</script>";
+            // echo "<script>console.log(".json_encode("Heeeeeeeey").")</script>";
+            $post = $this->postDB->read(intval($id));
+            echo "<script>console.log(".json_encode($post).")</script>";
+
             if ($post === null) {
-                $this->view->makeUnknownActionPage();
+                $this->authView->makeErrorPage("Controller postPage()");
             } else {
-                $this->view->makePostPage($post);
+                $this->authView->makePostPage($post);
             }
         }
 

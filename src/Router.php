@@ -19,7 +19,7 @@ class Router{
     public function main(){
         session_start();
 
-        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : 'false';
+        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : false;
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -49,7 +49,6 @@ class Router{
 
                 case 'loginPage': 
                     $controller->loginPage();
-                    // $view->makeLoginPage();
                     break;
                 
                 case 'unauthenticated':
@@ -67,6 +66,10 @@ class Router{
                 case 'login': 
                     $controller->login($_POST);
                     break;
+
+                case 'post':
+                    $controller->postPage($postId);
+                    break;
                 
                 case 'newPost':
                     $controller->newPost();
@@ -79,7 +82,7 @@ class Router{
                 case 'modifyPost': 
                     $controller->modifyPost($postId);
                     break;
-                
+
                 case 'deletePost': 
                     if ($postId == null) {
                         $view->makeErrorPage("Router deletePost Error");
@@ -151,15 +154,15 @@ class Router{
     }
 
     public function postPage($id) {
-        return ".?post=$id";
+        return ".?post=$id&amp;action=post";
         // return ".?action=postPage";
     }
 
-    public function modifyPostPage($id) {
+    public function modifyPost($id) {
         return ".?post=$id&amp;action=modifyPost";
     }
 
-    public function deletePostPage($id) {
+    public function deletePost($id) {
         return ".?post=$id&amp;action=deletePost";
     }
 

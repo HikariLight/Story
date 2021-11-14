@@ -105,6 +105,10 @@ button a{
     padding: 1em;
 }
 
+.articlePost{
+    padding: 1em;
+}
+
 .joke{
     border: 1px solid #4AA55B;
 }

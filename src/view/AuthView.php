@@ -24,14 +24,17 @@ require_once("Router.php");
         }
 
         public function makePostPage($data){
-            $this->title = getPostTitle($data->Setup);
+            $this->title = $this->getPostTitle($data[0]->Setup);
 
-            $borderColor = $this->getBorderColor($row);
+            $borderColor = $this->getBorderColor($data[0]);
 
             $this->content = "
-            <article class='$borderColor'>
-                <p>$data->Setup;</p><br>
-                <p>$data->Punchline;</p>
+            <article class='articlePost ".$borderColor."'>
+                <p>".$data[0]->Setup."</p><br>
+                <p>".$data[0]->Punchline."</p>
+
+                <button class='coloredBackgroundButton'><a href='".$this->router->modifyPost($data[0]->Post_id)."'>Modify</a></button>
+                <button class='coloredBackgroundButton'><a href='".$this->router->deletePost($data[0]->Post_id)."'>Delete</a></button>
             </article>
             ";
         }
