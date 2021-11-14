@@ -67,7 +67,7 @@ class Router{
                     $controller->login($_POST);
                     break;
 
-                case 'post':
+                case 'postPage':
                     $controller->postPage($postId);
                     break;
                 
@@ -77,10 +77,14 @@ class Router{
                     
                 case 'saveNewPost':
                     $controller->saveNewPost($_POST);
-                    break;    
+                    break;
+                
+                case 'modifyPostPage':
+                    $controller->modifyPostPage($postId);
+                    break;
 
                 case 'modifyPost': 
-                    $controller->modifyPost($postId);
+                    $controller->updateModifyPost($postId, $_POST);
                     break;
 
                 case 'deletePost': 
@@ -92,7 +96,12 @@ class Router{
                     break;
                 
                 case 'profile':
-                    $controller->profilePage();
+                    if($auth){
+                        $controller->profilePage();
+
+                    } else{
+                        $view->makeUnauthenticatedPage();
+                    }
                     break;
                 
                 case 'disconnect':
@@ -154,11 +163,14 @@ class Router{
     }
 
     public function postPage($id) {
-        return ".?post=$id&amp;action=post";
-        // return ".?action=postPage";
+        return ".?post=$id&amp;action=postPage";
     }
 
     public function modifyPost($id) {
+        return ".?post=$id&amp;action=modifyPostPage";
+    }
+
+    public function updateModifyPost($id) {
         return ".?post=$id&amp;action=modifyPost";
     }
 

@@ -90,6 +90,13 @@ require_once("Router.php");
             $this->content = "<h1 class='title'>Account Created. Welcome to the website!</h1>";
         }
 
+        public function makeWelcomePage(){
+            $this->title = "My Profile";
+
+            $this->content = "<h1 class='title'>Welcome!</h1>";
+            $this->content .= "<button class='coloredBackgroundButton'><a href='".$this->router->galleryPage()."'>Browse Posts</a></button>";
+        }
+
         public function makeUnauthenticatedPage(){
             $this->title = "Unauthenticated";
 
