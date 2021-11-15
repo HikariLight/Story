@@ -156,14 +156,23 @@
         }
 
         public function search($data){
-            $results = $this->postDB->readUser($data['search']);
-            
-            if($_SESSION['auth']){
-                $this->authView->makeAuthGalleryPage($results);
+            try{
+                $results = $this->postDB->readUser($data['search']);
 
+                if($_SESSION['auth']){
+                    $this->authView->makeAuthGalleryPage($results);
+                }
+                else{
+                    $this->view->makeGalleryPage($results);
+                }
             }
-            else{
-                $this->view->makeGalleryPage($results);
+            catch (\Throwable $th) {
+                if($_SESSION['auth']){
+                    $this->authView->makeNotFoundPage();
+                }
+                else{
+                    $this->view->makeNotFoundPage();
+                }
             }
         }
 

@@ -1,7 +1,7 @@
 body{
     margin: 0;
     min-height: 100vh; 
-    background-color: #E5E5E5;
+    background-color: #E6E6E6;
     font-family: Helvetica, Arial, Verdana;
     text-align: center;
     display: grid;
@@ -110,19 +110,20 @@ button a{
 }
 
 .joke{
-    border: 1px solid #4AA55B;
+    border: 1.5px solid #4AA55B;
 }
 
 .shortStory{
-    border: 1px solid #21A8F3;
+    border: 1.5px solid #21A8F3;
 }
 
 .shortHorrorStory{
-    border: 1px solid #AC1933;
+    border: 1.5px solid #AC1933;
 }
 
 input{
     display: block;
+    border: none;
     padding: 1em;
     margin: 0.5em;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
@@ -131,7 +132,11 @@ input{
 select {
     padding: 1em;
     margin: 1em;
-  }
+}
+
+.searchBox{
+    border:1px solid #AC1933;
+}
 
 footer{
     min-height:50px; 

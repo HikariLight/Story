@@ -70,16 +70,22 @@ require_once("Router.php");
             $this->content .= "</form>";
         }
 
+        public function makeSearchBar(){
+            return "
+            <div class='searchBar'>
+                <form action='".$this->router->search()."' method='POST'>
+                    <input class='searchBox' type='text' name='search' value='' placeholder='Search Username'>
+                </form>
+            </div>
+        ";
+        }
+
         public function makeGalleryPage($data){
             $this->title = "Gallery";
 
             $this->content = "";
 
-            $this->content .= "
-                <form action='".$this->router->search()."' method='POST'>
-                    <label>Search: <input type='text' name='search' value=''>
-                </form>
-            ";
+            $this->content .= $this->makeSearchBar();
 
             $this->content .= "
             <div class='posts'>";
@@ -110,6 +116,14 @@ require_once("Router.php");
             $this->content .= "<p>Only authenticated people may read the punchline of the stories. Please sign up or login to see the rest.</p>";
             $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=login'>Login</a></button>";
             $this->content .= "<button class='coloredTextButton'><a href='.?action=newAccount'>Sign Up</a></button>";
+
+        }
+
+        public function makeNotFoundPage(){
+            $this->title = "Not found";
+
+            $this->content = "<h1 class='title'>No user with this name was found.</h1>";
+            $this->content .= $this->makeSearchBar();
 
         }
 
@@ -165,10 +179,6 @@ require_once("Router.php");
                 $s .= ' <span class="error">'.$err.'</span>';
             $s .= '</label></p>'."\n";
             return $s;
-        }
-
-        public static function htmlesc($str) {
-            return htmlspecialchars($str, ENT_QUOTES | ENT_SUBSTITUTE| ENT_HTML5, 'UTF-8');
         }
 
         public function render(){
