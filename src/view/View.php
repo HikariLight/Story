@@ -76,6 +76,12 @@ require_once("Router.php");
             $this->content = "";
 
             $this->content .= "
+                <form action='".$this->router->search()."' method='POST'>
+                    <label>Search: <input type='text' name='search' value=''>
+                </form>
+            ";
+
+            $this->content .= "
             <div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);

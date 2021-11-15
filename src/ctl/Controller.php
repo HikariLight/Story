@@ -21,7 +21,6 @@
         protected $accountBuilder;
 
         public function __construct(View $view, AuthView $authView, PostStorageDB $postDB, AccountStorageDB $accountDB){
-            // session_start();
             $this->view = $view;
             $this->authView = $authView;
 
@@ -154,6 +153,18 @@
         public function deletePost($id){
             $this->postDB->delete($id);
             $this->authView->makePostDeletedPage();
+        }
+
+        public function search($data){
+            $results = $this->postDB->readUser($data['search']);
+            
+            if($_SESSION['auth']){
+                $this->authView->makeAuthGalleryPage($results);
+
+            }
+            else{
+                $this->view->makeGalleryPage($results);
+            }
         }
 
         public function disconnect(){

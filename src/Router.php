@@ -19,7 +19,8 @@ class Router{
     public function main(){
         session_start();
 
-        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : false;
+
+        $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : $_SESSION['auth'] = false;
 
         $postId = key_exists('post', $_GET) ? $_GET['post'] : null;
         $accounttId = key_exists('account', $_GET) ? $_GET['account'] : null;
@@ -104,6 +105,10 @@ class Router{
                     }
                     break;
                 
+                case 'search':
+                    $controller->search($_POST);
+                    break;
+                
                 case 'disconnect':
                     $controller->disconnect();
                     break;
@@ -116,7 +121,6 @@ class Router{
             $view->makeErrorPage("Heeeeey".$e);
         }
 
-        // switch ($post)
         if($auth){
             $authView->render();
         }
@@ -156,6 +160,10 @@ class Router{
 
     public function saveNewPost(){
         return ".?action=saveNewPost";
+    }
+
+    public function search(){
+        return ".?action=search";
     }
 
     public function profilePage(){

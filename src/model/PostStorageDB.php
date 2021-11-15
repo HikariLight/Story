@@ -14,9 +14,9 @@ class PostStorageDB implements PostStorage {
 
     // For Personal Server
     // protected $host = "mysql.info.unicaen.fr";
-    // protected $db = "NUMETU_bd";
-    // protected $user = "NUMETU";
-    // protected $password = "";
+    // protected $db = "21812920_bd";
+    // protected $user = "21812920";
+    // protected $password = "ohG6OolohxubieDa";
 
     protected $pdo;
 
