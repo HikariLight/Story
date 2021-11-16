@@ -9,7 +9,7 @@ require_once("Router.php");
         public function makeAuthGalleryPage($data){
             $this->title = "Gallery";
 
-            $this->content = "";
+            $this->content .= $this->makeSearchBar();
             
             $this->content .= "
             <div class='posts'>";
@@ -33,6 +33,9 @@ require_once("Router.php");
                 <p>".$data[0]->Setup."</p><br>
                 <p>".$data[0]->Punchline."</p>
             </article>
+            <p>Created: ".$data[0]->Creation_Date."</p>
+            <p>Last modified: ".$data[0]->Modification_Date."</p>
+
             ";
 
             if($_SESSION['id'] == $data[0]->User_id){

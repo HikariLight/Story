@@ -48,8 +48,45 @@
             $this->view->makeAboutPage();
         }
 
+        public function newAccount(){
+            if ($this->accountBuilder === null) {
+                $this->accountBuilder = new AccountBuilder();
+            }
+            $this->view->makeSignUpPage($this->accountBuilder);
+        }
+
+        public function saveNewAccount(array $data){
+            $this->accountBuilder = new AccountBuilder($data);
+            if ($this->accountBuilder->isValid()) {
+                $account = $this->accountBuilder->createAccount();
+                $accountId = $this->accountDB->create($account);
+                $this->AccountBuilder = null;
+                $this->view->makeAccountCreatedPage();
+            } else {
+                $this->view->makeErrorPage("saveNewAccount() Error");
+            }
+        }
+
         public function loginPage(){
-            $this->view->makeLoginPage();
+            if ($this->accountBuilder === null) {
+                $this->accountBuilder = new AccountBuilder();
+            }
+            $this->view->makeLoginPage($this->accountBuilder);
+        }
+
+        public function login(array $data){
+            if($this->accountDB->checkauth($data["login"], $data["password"])) {
+                $userData = $this->accountDB->read($data["login"]);
+                
+                $_SESSION['auth'] = true;
+                $_SESSION['id'] = $userData[0]->User_id;
+                $_SESSION['username'] = $userData[0]->Username;
+                
+                $this->view->makeWelcomePage();
+            }
+            else{
+                $this->view->makeErrorPage();
+            }
         }
 
         public function galleryPage(){
@@ -95,40 +132,6 @@
                 $this->authView->makePostCreatedPage();
             } else {
                 $this->view->makeErrorPage("saveNewPost() Error");
-            }
-        }
-
-        public function newAccount(){
-            if ($this->accountBuilder === null) {
-                $this->accountBuilder = new AccountBuilder();
-            }
-            $this->view->makeSignUpPage($this->accountBuilder);
-        }
-
-        public function saveNewAccount(array $data){
-            $this->accountBuilder = new AccountBuilder($data);
-            if ($this->accountBuilder->isValid()) {
-                $account = $this->accountBuilder->createAccount();
-                $accountId = $this->accountDB->create($account);
-                $this->AccountBuilder = null;
-                $this->view->makeAccountCreatedPage();
-            } else {
-                $this->view->makeErrorPage("saveNewAccount() Error");
-            }
-        }
-
-        public function login(array $data){
-            if($this->accountDB->checkauth($data["username"], $data["password"])) {
-                $userData = $this->accountDB->read($data["username"]);
-                
-                $_SESSION['auth'] = true;
-                $_SESSION['id'] = $userData[0]->User_id;
-                $_SESSION['username'] = $userData[0]->Username;
-                
-                $this->view->makeWelcomePage();
-            }
-            else{
-                $this->view->makeErrorPage();
             }
         }
 

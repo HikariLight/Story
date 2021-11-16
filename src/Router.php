@@ -47,10 +47,6 @@ class Router{
                 case 'about': 
                     $controller->aboutPage();
                     break; 
-
-                case 'loginPage': 
-                    $controller->loginPage();
-                    break;
                 
                 case 'unauthenticated':
                     $view->makeUnauthenticatedPage();
@@ -66,6 +62,10 @@ class Router{
                 
                 case 'login': 
                     $controller->login($_POST);
+                    break;
+                
+                case 'loginPage': 
+                    $controller->loginPage();
                     break;
 
                 case 'postPage':
@@ -148,6 +148,10 @@ class Router{
 
     public function saveNewAccount(){
         return ".?action=saveNewAccount";
+    }
+
+    public function loginPage(){
+        return ".?action=loginPage";
     }
 
     public function login(){

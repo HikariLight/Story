@@ -7,16 +7,16 @@ require_once("model/PostStorage.php");
 class PostStorageDB implements PostStorage {
 
     // For XAMPP
-    protected $host = "localhost";
-    protected $db = "story";
-    protected $user = "root";
-    protected $password = "";
+   protected $host = "localhost";
+   protected $db = "story";
+   protected $user = "root";
+   protected $password = "";
 
-    // For Personal Server
-    // protected $host = "mysql.info.unicaen.fr";
-    // protected $db = "21812920_bd";
-    // protected $user = "21812920";
-    // protected $password = "ohG6OolohxubieDa";
+    //  For Personal Server
+    //  protected $host = "mysql.info.unicaen.fr";
+    //  protected $db = "NUMETU_bd";
+    //  protected $user = "NUMETU";
+    //  protected $password = "";
 
     protected $pdo;
 

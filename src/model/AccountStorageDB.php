@@ -6,16 +6,16 @@ require_once("model/AccountStorage.php");
 class AccountStorageDB implements AccountStorage {
 
     // For XAMPP
-    protected $db = "story";
-    protected $host = "localhost";
-    protected $user = "root";
-    protected $password = "";
+   protected $db = "story";
+   protected $host = "localhost";
+   protected $user = "root";
+   protected $password = "";
 
     // For Personal Server
-    // protected $host = "mysql.info.unicaen.fr";
-    // protected $db = "21812920_bd";
-    // protected $user = "21812920";
-    // protected $password = "ohG6OolohxubieDa";
+    //  protected $host = "mysql.info.unicaen.fr";
+    //  protected $db = "NUMETU_bd";
+    //  protected $user = "NUMETU";
+    //  protected $password = "";
 
     protected $pdo;
 

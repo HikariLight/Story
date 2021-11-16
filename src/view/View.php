@@ -19,11 +19,8 @@ require_once("Router.php");
         public function makeHomePage(){
             $this->title = "Home";
 
-            $this->content = "
-            <h1 class='title'>Tell a Story.</h1>";
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newAccount'>Sign up</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=loginPage'>Login</a></button>";
-            // $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=newPost'>New Post</a></button>";
+            $this->content = "<h1 class='title'>Tell a Story.</h1>";
+            $this->content .= $this->makeCredButtons();
         }
 
         public function makeAboutPage(){
@@ -51,33 +48,14 @@ require_once("Router.php");
 
         public function makeSignUpPage(AccountBuilder $builder){
             $this->title = "Sign Up";
-
             $this->content = "<h1 class='title'>Sign Up</h1>";
-            $this->content .= '<form action="'.$this->router->saveNewAccount().'" method="POST">'."\n";
-            $this->content .= self::getAccountFormFields($builder);
-            $this->content .= "<button class='coloredBackgroundButton'>Sign Up</button>\n";
-            $this->content .= "</form>\n";
+            $this->content .= $this->makeForm($builder, $this->router->saveNewAccount(), "Sign up");
         }
 
-        public function makeLoginPage(){
+        public function makeLoginPage(AccountBuilder $builder){
             $this->title = "Login";
-
             $this->content = "<h1 class='title'>Login</h1>";
-            $this->content .= "<form action='".$this->router->login()."' method='POST'>";
-            $this->content .= "Username: <input type='text' name='username'>";
-            $this->content .= "Password: <input type='password' name='password'>"."<br>";
-            $this->content .= "<button class='coloredBackgroundButton'>Submit</button>";
-            $this->content .= "</form>";
-        }
-
-        public function makeSearchBar(){
-            return "
-            <div class='searchBar'>
-                <form action='".$this->router->search()."' method='POST'>
-                    <input class='searchBox' type='text' name='search' value='' placeholder='Search Username'>
-                </form>
-            </div>
-        ";
+            $this->content .= $this->makeForm($builder, $this->router->login(), "Login");
         }
 
         public function makeGalleryPage($data){
@@ -100,6 +78,7 @@ require_once("Router.php");
             $this->title = "Welcome!";
 
             $this->content = "<h1 class='title'>Account Created. Welcome to the website!</h1>";
+            $this->content = "<button class='coloredTextButton'><a href='".$this->router->login()."'>Login</a></button>";
         }
 
         public function makeWelcomePage(){
@@ -114,9 +93,7 @@ require_once("Router.php");
 
             $this->content = "<h1 class='title'>Unauthenticated.</h1>";
             $this->content .= "<p>Only authenticated people may read the punchline of the stories. Please sign up or login to see the rest.</p>";
-            $this->content .= "<button class='coloredBackgroundButton'><a href='.?action=login'>Login</a></button>";
-            $this->content .= "<button class='coloredTextButton'><a href='.?action=newAccount'>Sign Up</a></button>";
-
+            $this->content .= $this->makeCredButtons();
         }
 
         public function makeNotFoundPage(){
@@ -132,6 +109,28 @@ require_once("Router.php");
 
             $this->content = "<h1 class='title'>Error Page.</h1><br>";
             $this->content .= "<p>Location: ".$errorLocation."</p>";
+        }
+
+        public function makeCredButtons(){
+            return "<button class='coloredBackgroundButton'><a href='".$this->router->newAccount()."'>Sign up</a></button>
+            <button class='coloredTextButton'><a href='".$this->router->loginPage()."'>Login</a></button>";
+        }
+
+        public function makeSearchBar(){
+            return "
+                <form action='".$this->router->search()."' method='POST'>
+                    <input class='searchBox' type='text' name='search' value='' placeholder='Search Username'>
+                </form>
+        ";
+        }
+
+        public function makeForm(AccountBuilder $builder, $action, $text){
+            return "
+            <form action='".$action."' method='POST'>"
+            .self::getAccountFormFields($builder).
+            "<button class='coloredBackgroundButton'>".$text."</button>
+            </form>
+            ";
         }
 
         // ------------ Non-Page stuff ------------

@@ -135,6 +135,8 @@ select {
 }
 
 .searchBox{
+    margin: 1em auto;
+    width: 200px;
     border:1px solid #AC1933;
 }
 
