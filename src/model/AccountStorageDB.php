@@ -6,16 +6,16 @@ require_once("model/AccountStorage.php");
 class AccountStorageDB implements AccountStorage {
 
     // For XAMPP
-   protected $db = "story";
-   protected $host = "localhost";
-   protected $user = "root";
-   protected $password = "";
+    protected $db = "story";
+    protected $host = "localhost";
+    protected $user = "root";
+    protected $password = "";
 
     // For Personal Server
-    //  protected $host = "mysql.info.unicaen.fr";
-    //  protected $db = "NUMETU_bd";
-    //  protected $user = "NUMETU";
-    //  protected $password = "";
+    // protected $host = "mysql.info.unicaen.fr";
+    // protected $db = "NUMETU_bd";
+    // protected $user = "NUMETU";
+    // protected $password = "";
 
     protected $pdo;
 
@@ -110,6 +110,25 @@ class AccountStorageDB implements AccountStorage {
             return true;
         } catch(PDOException $e) {
             throw new Exception('Database Users.update query error');
+        }
+    }
+
+    public function getUserFromId($id){
+        try {
+            $stmt = $this->pdo->prepare("SELECT EXISTS ( SELECT `User_id` FROM `Users` WHERE Users.User_id = ?)");
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            if (!$stmt->fetchColumn()) {
+                throw new Exception('Database Users.getUserFromId query error');
+            }
+            $stmt = $this->pdo->prepare("SELECT `Username` FROM `Users` WHERE Users.User_id = ?");
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            $stmt->closeCursor();
+            return $res;
+        } catch(PDOException $e) {
+            throw new Exception('Database Users.getUserFromId query error');
         }
     }
 

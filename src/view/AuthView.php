@@ -23,12 +23,13 @@ require_once("Router.php");
 
         }
 
-        public function makePostPage($data){
+        public function makePostPage($data, $username){
             $this->title = $this->getPostTitle($data[0]->Setup);
 
             $borderColor = $this->getBorderColor($data[0]);
 
             $this->content = "
+            <p style='text-align: left'>Created by: ".$username."</p>
             <article class='articlePost ".$borderColor."'>
                 <p>".$data[0]->Setup."</p><br>
                 <p>".$data[0]->Punchline."</p>
@@ -117,10 +118,11 @@ require_once("Router.php");
             $this->content .= "<button class='coloredBackgroundButton'><a href='".$this->router->disconnect()."'>Log Out</a></button>";
         }
 
-        public function makeDisconnectedPage(){
+        public function makeDisconnectedPage($username){
             $this->title = "My Profile";
 
             $this->content = "<h1 class='title'>Goodbye!</h1>";
+            $this->content .= "<h1 class='title'>Hope to see you again, ".$username."!</h1>";
         }
 
         // ------------ Non-Page stuff ------------

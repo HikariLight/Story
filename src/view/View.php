@@ -81,10 +81,10 @@ require_once("Router.php");
             $this->content = "<button class='coloredTextButton'><a href='".$this->router->login()."'>Login</a></button>";
         }
 
-        public function makeWelcomePage(){
+        public function makeWelcomePage($username){
             $this->title = "My Profile";
 
-            $this->content = "<h1 class='title'>Welcome!</h1>";
+            $this->content = "<h1 class='title'>Welcome, ".$username."!</h1>";
             $this->content .= "<button class='coloredBackgroundButton'><a href='".$this->router->galleryPage()."'>Browse Posts</a></button>";
         }
 

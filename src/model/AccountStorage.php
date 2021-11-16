@@ -8,6 +8,8 @@ interface AccountStorage {
 
     public function read($id);
 
+    public function getUserFromId($id);
+
     public function checkAuth($login, $password);
 
     public function update($id, Account $a);

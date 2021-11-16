@@ -82,7 +82,7 @@
                 $_SESSION['id'] = $userData[0]->User_id;
                 $_SESSION['username'] = $userData[0]->Username;
                 
-                $this->view->makeWelcomePage();
+                $this->view->makeWelcomePage($userData[0]->Username);
             }
             else{
                 $this->view->makeErrorPage();
@@ -102,11 +102,11 @@
 
         public function postPage($id){
             $post = $this->postDB->read(intval($id));
-
             if ($post === null) {
                 $this->authView->makeErrorPage("Controller postPage()");
             } else {
-                $this->authView->makePostPage($post);
+                $username = $this->accountDB->getUserFromId(intval($post[0]->User_id));
+                $this->authView->makePostPage($post, $username[0]->Username);
             }
         }
 
@@ -181,7 +181,7 @@
 
         public function disconnect(){
             $_SESSION['auth'] = false;
-            $this->authView->makeDisconnectedPage();
+            $this->authView->makeDisconnectedPage($_SESSION['username']);
         }
     }
 ?>
