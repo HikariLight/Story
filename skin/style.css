@@ -16,8 +16,11 @@ nav{
     margin: 1em;
 }
 
-nav ul {
+ul{
     list-style-type: none;
+}
+
+nav ul {
     margin: 0;
     padding: 0;
 }
@@ -47,6 +50,10 @@ button{
 
 button a{
     text-decoration: none;
+}
+
+footer{
+    min-height:50px; 
 }
 
 .coloredBackgroundButton{
@@ -140,12 +147,8 @@ select {
     border:1px solid #AC1933;
 }
 
-footer{
-    min-height:50px; 
-}
-
 /* Responsive design */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     .posts{
       display: block;
     }
