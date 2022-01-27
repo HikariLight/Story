@@ -1,3 +1,9 @@
+html{
+    --themeRed: #AC1933;
+    --themeGreen: #4AA55B;
+    --themeBlue: #21A8F3;
+}
+
 body{
     margin: 0;
     min-height: 100vh; 
@@ -32,7 +38,7 @@ nav ul li{
 
 nav ul li a{
     text-decoration: none;
-    color: #AC1933;
+    color: var(--themeRed);
 }
 
 main{
@@ -40,7 +46,7 @@ main{
 }
 
 .title{
-    color: #AC1933;
+    color: var(--themeRed);
 }
 
 button{
@@ -59,7 +65,7 @@ footer{
 .coloredBackgroundButton{
     border-radius: 25px;
     border: none;
-    background-color: #AC1933;
+    background-color: var(--themeRed);
     color: white;
 }
 
@@ -69,13 +75,13 @@ footer{
 
 .coloredTextButton{
     border-radius: 25px;
-    border: 1px solid #AC1933;
+    border: 1px solid var(--themeRed);
     background-color: white;
-    color: #AC1933;
+    color: var(--themeRed);
 }
 
 .coloredTextButton a{
-    color: #AC1933;
+    color: var(--themeRed);
 }
 
 .readMoreButton{
@@ -85,7 +91,7 @@ footer{
     border: none;
     bottom:0;
     right:0;
-    background-color: #AC1933;
+    background-color: var(--themeRed);
     height: 100%;
 }
 
@@ -117,15 +123,15 @@ footer{
 }
 
 .joke{
-    border: 1.5px solid #4AA55B;
+    border: 1.5px solid var(--themeGreen);
 }
 
 .shortStory{
-    border: 1.5px solid #21A8F3;
+    border: 1.5px solid var(--themeBlue);
 }
 
 .shortHorrorStory{
-    border: 1.5px solid #AC1933;
+    border: 1.5px solid var(--themeRed);
 }
 
 input{
@@ -144,7 +150,7 @@ select {
 .searchBox{
     margin: 1em auto;
     width: 200px;
-    border:1px solid #AC1933;
+    border:1px solid var(--themeRed);
 }
 
 /* Responsive design */
