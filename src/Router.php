@@ -15,10 +15,8 @@ class Router{
         $this->accountDB = $accountDB;
     }
 
-    // Main function
     public function main(){
         session_start();
-
 
         $auth = key_exists('auth', $_SESSION) ? $_SESSION['auth'] : $_SESSION['auth'] = false;
 
@@ -59,7 +57,7 @@ class Router{
                 case 'saveNewAccount':
                     $controller->saveNewAccount($_POST);
                     break;
-                
+
                 case 'login': 
                     $controller->login($_POST);
                     break;
@@ -118,7 +116,7 @@ class Router{
                     break;
             }
         } catch (Exception $e) {
-            $view->makeErrorPage("Heeeeey".$e);
+            $view->makeErrorPage("Router ".$e);
         }
 
         if($auth){

@@ -15,7 +15,7 @@ body{
 }
 
 header{ 
-    min-height:50px;
+    min-height:3vh;
 }
 
 nav{
@@ -43,13 +43,14 @@ nav ul li a{
 
 main{
     margin: auto;
+    width: 90%;
 }
 
 .title{
     color: var(--themeRed);
 }
 
-button{
+.homeButton{
     padding: 1.25em 2em;
     margin: 0.5em;
 }
@@ -59,7 +60,7 @@ button a{
 }
 
 footer{
-    min-height:50px; 
+    min-height: 3vh; 
 }
 
 .coloredBackgroundButton{
@@ -85,14 +86,8 @@ footer{
 }
 
 .readMoreButton{
-    position:absolute;
-    margin: 0 0 0 5px;
-    padding: 1em;
     border: none;
-    bottom:0;
-    right:0;
     background-color: var(--themeRed);
-    height: 100%;
 }
 
 .readMoreButton a{
@@ -107,15 +102,22 @@ footer{
 
 .posts{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
   }
 
 .post{
     position: relative;
     background-color: #FFFFFF;
     text-align: left;
-    margin: 1em;
-    padding: 1em;
+    margin: 0.5em;
+    width: 90%;
+
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+}
+
+.setup{
+    padding: 0.2em 0.5em;
 }
 
 .articlePost{
@@ -135,7 +137,6 @@ footer{
 }
 
 input{
-    display: block;
     border: none;
     padding: 1em;
     margin: 0.5em;

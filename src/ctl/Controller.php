@@ -21,6 +21,7 @@
         protected $accountBuilder;
 
         public function __construct(View $view, AuthView $authView, PostStorageDB $postDB, AccountStorageDB $accountDB){
+            
             $this->view = $view;
             $this->authView = $authView;
 

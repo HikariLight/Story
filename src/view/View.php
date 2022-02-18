@@ -33,7 +33,7 @@ require_once("Router.php");
             
             <h1 class='title'>Group Members</h1>
             <ul>
-                <li>MERZOUGUI Dhia Eddine</li>
+                <li>MERZOUGUI Dhia</li>
                 <li>MERCIER Julien</li>
             </ul>
 
@@ -41,7 +41,6 @@ require_once("Router.php");
             <ul>
                 <li>Website is responsive</li>
                 <li>Website has a search function</li>
-                <li>Website has a sorting function</li>
             </ul>
             ";
         }
@@ -65,11 +64,10 @@ require_once("Router.php");
 
             $this->content .= $this->makeSearchBar();
 
-            $this->content .= "
-            <div class='posts'>";
+            $this->content .= "<div class='posts'>";
             foreach($data as $row){
                 $borderColor = $this->getBorderColor($row);
-                $this->content .= "<div class='post $borderColor'>".$row->Setup."..."."<button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></div>";
+                $this->content .= "<article class='post $borderColor'><p class='setup'>".$row->Setup."..."."</p><button class='readMoreButton'><a href='.?action=unauthenticated'>Read more</a></button></article>";
             }
             $this->content .= "</div>";
         }
@@ -78,7 +76,7 @@ require_once("Router.php");
             $this->title = "Welcome!";
 
             $this->content = "<h1 class='title'>Account Created. Welcome to the website!</h1>";
-            $this->content = "<button class='coloredTextButton'><a href='".$this->router->login()."'>Login</a></button>";
+            $this->content = "<button class='coloredTextButton homeButton'><a href='".$this->router->login()."'>Login</a></button>";
         }
 
         public function makeWelcomePage($username){
@@ -112,8 +110,8 @@ require_once("Router.php");
         }
 
         public function makeCredButtons(){
-            return "<button class='coloredBackgroundButton'><a href='".$this->router->newAccount()."'>Sign up</a></button>
-            <button class='coloredTextButton'><a href='".$this->router->loginPage()."'>Login</a></button>";
+            return "<button class='coloredBackgroundButton homeButton'><a href='".$this->router->newAccount()."'>Sign up</a></button>
+            <button class='coloredTextButton homeButton'><a href='".$this->router->loginPage()."'>Login</a></button>";
         }
 
         public function makeSearchBar(){
@@ -128,7 +126,7 @@ require_once("Router.php");
             return "
             <form action='".$action."' method='POST'>"
             .self::getAccountFormFields($builder).
-            "<button class='coloredBackgroundButton'>".$text."</button>
+            "<button class='homeButton coloredBackgroundButton'>".$text."</button>
             </form>
             ";
         }
@@ -194,7 +192,7 @@ require_once("Router.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="skin/style.css">
-    <link rel="icon" href="skin/favicon.png">
+    <link rel="icon" href="skin/favicon2.png">
 
     <style>
         <?php echo $this->style; ?>
